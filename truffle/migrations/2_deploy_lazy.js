@@ -1,4 +1,4 @@
-var Verifier = artifacts.require('verifier');
+var Verifier = artifacts.require('Verifier');
 var VerifierProxy = artifacts.require('VerifierProxy');
 var Lazy = artifacts.require('Lazy');
 

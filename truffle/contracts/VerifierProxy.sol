@@ -2,7 +2,7 @@ pragma solidity ^0.5.4;
 pragma experimental ABIEncoderV2;
 
 import "./Structs.sol";
-import "./verifier.sol";
+import "./Verifier.sol";
 
 
 contract VerifierProxy is Structs {
