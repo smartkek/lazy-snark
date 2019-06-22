@@ -19,6 +19,9 @@ contract Lazy is Structs {
     }
     
     Task[] public tasks;
+    function tasksNum() external view returns(uint) {
+        return tasks.length;
+    }
     
     uint256 public stake;
     IVerifier public verifier;
@@ -65,6 +68,21 @@ contract Lazy is Structs {
         msg.sender.transfer(stake);
     }
 
+    function taskDataById(uint id) external view returns(
+            uint[5] memory input, 
+            uint[2] memory a,
+            uint[4] memory b,
+            uint[2] memory c 
+            ) {
+        Task memory task = tasks[id];
+        input = task.data.input;
+        a = task.proof.a;
+        b[0] = task.proof.b[0][0];
+        b[1] = task.proof.b[0][1];
+        b[2] = task.proof.b[1][0];
+        b[3] = task.proof.b[1][1];
+        c = task.proof.c;
+    }
 
 
     function last5Timestamps() view external returns (uint256[5] memory result) {
