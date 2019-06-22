@@ -1,21 +1,30 @@
 //CONNECT FLUENCE
+import * as fluence from "fluence";
+
+let session;
+window.onload = function () {
+    let contractAddress = "0xeFF91455de6D4CF57C141bD8bF819E5f873c1A01";
+
+    // set ethUrl to `undefined` to use MetaMask instead of Ethereum node
+    let ethUrl = "http://geth.fluence.one:8545/";
+
+    // application to interact with that stored in Fluence contract
+    let appId = "261";
+
+    // create a session between client and backend application, and then join the game
+    fluence.connect(contractAddress, appId, ethUrl).then((s) => {
+        console.log("Session created");
+        session = s;
+    });
+};
+
+
 var contractInstance;
 
 $(document).ready(function() {
 
-    // CONNECT WEB3
-    if (typeof web3 !== 'undefined') {
-        // Use Mist/MetaMask's provider
-        let web3js = new Web3(web3.currentProvider);
-    } else {
-        console.log('No web3? You should consider trying MetaMask!');
-        // fallback - use your fallback strategy (local node / hosted node + in-dapp id mgmt / fail)
-        let web3js = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
-    }
 
-    //console.log(web3js);
-
-    var controllerAddress = '0x64748b0c0b28079cf88345c1dd992d543d9f028a';
+    var controllerAddress = '0x1cca1f0be338c747b11a16aba8d0905251628bdf';
     let ControllerAbi = '[\n' +
         '\t{\n' +
         '\t\t"constant": false,\n' +
@@ -322,14 +331,16 @@ $(document).ready(function() {
         for (let i = 0; i < maxLen; i++) {
             let data = result - 1 - i;
             let fluenceResponse = session.request(`{"action": "Check", "proof_id": ${data}}`);
-
+            console.log(fluenceResponse);
             $('#state-id-' + i).text(result - 1 - i);
             if (fluenceResponse.hasOwnProperty('verified')) {
                 if (fluenceResponse.verified) {
                     // все хорошо - мы проверили в флюенсе
+                    $('#state-status-fluence-' + i).text('TRUE by Fluence.');
                     $('#challenge-' + i).prop('disabled', true);
                 } else {
                     // мы проверили, пруф неправильный
+                    $('#state-status-fluence-' + i).text('FALSE by Fluence.');
                     $('#challenge-' + i).text('Challenge on Ethereum!')
                 }
             }
@@ -409,6 +420,3 @@ function challengeEthereum(jobId) {
         $('#challenge-' + jobId).text('See tx on Etherscan!').attr("href", "https://ropsten.etherscan.io/tx/" + txHash);
     });
 }
-
-
-import * as fluence from "fluence";
