@@ -1,4 +1,6 @@
 //CONNECT FLUENCE
+var contractInstance;
+
 $(document).ready(function() {
 
     // CONNECT WEB3
@@ -13,22 +15,8 @@ $(document).ready(function() {
 
     //console.log(web3js);
 
-    var controllerAddress = '0x2c13c996bad85b707ee7cf40b4e45d00abdf7d7b';
+    var controllerAddress = '0x64748b0c0b28079cf88345c1dd992d543d9f028a';
     let ControllerAbi = '[\n' +
-        '\t{\n' +
-        '\t\t"constant": false,\n' +
-        '\t\t"inputs": [\n' +
-        '\t\t\t{\n' +
-        '\t\t\t\t"name": "id",\n' +
-        '\t\t\t\t"type": "uint256"\n' +
-        '\t\t\t}\n' +
-        '\t\t],\n' +
-        '\t\t"name": "challenge",\n' +
-        '\t\t"outputs": [],\n' +
-        '\t\t"payable": false,\n' +
-        '\t\t"stateMutability": "nonpayable",\n' +
-        '\t\t"type": "function"\n' +
-        '\t},\n' +
         '\t{\n' +
         '\t\t"constant": false,\n' +
         '\t\t"inputs": [\n' +
@@ -44,13 +32,55 @@ $(document).ready(function() {
         '\t\t"type": "function"\n' +
         '\t},\n' +
         '\t{\n' +
+        '\t\t"constant": true,\n' +
+        '\t\t"inputs": [],\n' +
+        '\t\t"name": "last5Timestamps",\n' +
+        '\t\t"outputs": [\n' +
+        '\t\t\t{\n' +
+        '\t\t\t\t"name": "result",\n' +
+        '\t\t\t\t"type": "uint256[5]"\n' +
+        '\t\t\t}\n' +
+        '\t\t],\n' +
+        '\t\t"payable": false,\n' +
+        '\t\t"stateMutability": "view",\n' +
+        '\t\t"type": "function"\n' +
+        '\t},\n' +
+        '\t{\n' +
+        '\t\t"constant": true,\n' +
+        '\t\t"inputs": [],\n' +
+        '\t\t"name": "verifier",\n' +
+        '\t\t"outputs": [\n' +
+        '\t\t\t{\n' +
+        '\t\t\t\t"name": "",\n' +
+        '\t\t\t\t"type": "address"\n' +
+        '\t\t\t}\n' +
+        '\t\t],\n' +
+        '\t\t"payable": false,\n' +
+        '\t\t"stateMutability": "view",\n' +
+        '\t\t"type": "function"\n' +
+        '\t},\n' +
+        '\t{\n' +
+        '\t\t"constant": true,\n' +
+        '\t\t"inputs": [],\n' +
+        '\t\t"name": "stake",\n' +
+        '\t\t"outputs": [\n' +
+        '\t\t\t{\n' +
+        '\t\t\t\t"name": "",\n' +
+        '\t\t\t\t"type": "uint256"\n' +
+        '\t\t\t}\n' +
+        '\t\t],\n' +
+        '\t\t"payable": false,\n' +
+        '\t\t"stateMutability": "view",\n' +
+        '\t\t"type": "function"\n' +
+        '\t},\n' +
+        '\t{\n' +
         '\t\t"constant": false,\n' +
         '\t\t"inputs": [\n' +
         '\t\t\t{\n' +
         '\t\t\t\t"components": [\n' +
         '\t\t\t\t\t{\n' +
-        '\t\t\t\t\t\t"name": "x",\n' +
-        '\t\t\t\t\t\t"type": "uint256"\n' +
+        '\t\t\t\t\t\t"name": "input",\n' +
+        '\t\t\t\t\t\t"type": "uint256[5]"\n' +
         '\t\t\t\t\t}\n' +
         '\t\t\t\t],\n' +
         '\t\t\t\t"name": "data",\n' +
@@ -59,8 +89,16 @@ $(document).ready(function() {
         '\t\t\t{\n' +
         '\t\t\t\t"components": [\n' +
         '\t\t\t\t\t{\n' +
-        '\t\t\t\t\t\t"name": "x",\n' +
-        '\t\t\t\t\t\t"type": "uint256"\n' +
+        '\t\t\t\t\t\t"name": "a",\n' +
+        '\t\t\t\t\t\t"type": "uint256[2]"\n' +
+        '\t\t\t\t\t},\n' +
+        '\t\t\t\t\t{\n' +
+        '\t\t\t\t\t\t"name": "b",\n' +
+        '\t\t\t\t\t\t"type": "uint256[2][2]"\n' +
+        '\t\t\t\t\t},\n' +
+        '\t\t\t\t\t{\n' +
+        '\t\t\t\t\t\t"name": "c",\n' +
+        '\t\t\t\t\t\t"type": "uint256[2]"\n' +
         '\t\t\t\t\t}\n' +
         '\t\t\t\t],\n' +
         '\t\t\t\t"name": "proof",\n' +
@@ -71,6 +109,108 @@ $(document).ready(function() {
         '\t\t"outputs": [],\n' +
         '\t\t"payable": true,\n' +
         '\t\t"stateMutability": "payable",\n' +
+        '\t\t"type": "function"\n' +
+        '\t},\n' +
+        '\t{\n' +
+        '\t\t"constant": true,\n' +
+        '\t\t"inputs": [\n' +
+        '\t\t\t{\n' +
+        '\t\t\t\t"name": "",\n' +
+        '\t\t\t\t"type": "uint256"\n' +
+        '\t\t\t}\n' +
+        '\t\t],\n' +
+        '\t\t"name": "tasks",\n' +
+        '\t\t"outputs": [\n' +
+        '\t\t\t{\n' +
+        '\t\t\t\t"components": [\n' +
+        '\t\t\t\t\t{\n' +
+        '\t\t\t\t\t\t"name": "input",\n' +
+        '\t\t\t\t\t\t"type": "uint256[5]"\n' +
+        '\t\t\t\t\t}\n' +
+        '\t\t\t\t],\n' +
+        '\t\t\t\t"name": "data",\n' +
+        '\t\t\t\t"type": "tuple"\n' +
+        '\t\t\t},\n' +
+        '\t\t\t{\n' +
+        '\t\t\t\t"components": [\n' +
+        '\t\t\t\t\t{\n' +
+        '\t\t\t\t\t\t"name": "a",\n' +
+        '\t\t\t\t\t\t"type": "uint256[2]"\n' +
+        '\t\t\t\t\t},\n' +
+        '\t\t\t\t\t{\n' +
+        '\t\t\t\t\t\t"name": "b",\n' +
+        '\t\t\t\t\t\t"type": "uint256[2][2]"\n' +
+        '\t\t\t\t\t},\n' +
+        '\t\t\t\t\t{\n' +
+        '\t\t\t\t\t\t"name": "c",\n' +
+        '\t\t\t\t\t\t"type": "uint256[2]"\n' +
+        '\t\t\t\t\t}\n' +
+        '\t\t\t\t],\n' +
+        '\t\t\t\t"name": "proof",\n' +
+        '\t\t\t\t"type": "tuple"\n' +
+        '\t\t\t},\n' +
+        '\t\t\t{\n' +
+        '\t\t\t\t"name": "submitter",\n' +
+        '\t\t\t\t"type": "address"\n' +
+        '\t\t\t},\n' +
+        '\t\t\t{\n' +
+        '\t\t\t\t"name": "timestamp",\n' +
+        '\t\t\t\t"type": "uint256"\n' +
+        '\t\t\t},\n' +
+        '\t\t\t{\n' +
+        '\t\t\t\t"name": "status",\n' +
+        '\t\t\t\t"type": "uint8"\n' +
+        '\t\t\t}\n' +
+        '\t\t],\n' +
+        '\t\t"payable": false,\n' +
+        '\t\t"stateMutability": "view",\n' +
+        '\t\t"type": "function"\n' +
+        '\t},\n' +
+        '\t{\n' +
+        '\t\t"constant": true,\n' +
+        '\t\t"inputs": [\n' +
+        '\t\t\t{\n' +
+        '\t\t\t\t"name": "id",\n' +
+        '\t\t\t\t"type": "uint256"\n' +
+        '\t\t\t}\n' +
+        '\t\t],\n' +
+        '\t\t"name": "taskDataById",\n' +
+        '\t\t"outputs": [\n' +
+        '\t\t\t{\n' +
+        '\t\t\t\t"name": "data",\n' +
+        '\t\t\t\t"type": "uint256[13]"\n' +
+        '\t\t\t}\n' +
+        '\t\t],\n' +
+        '\t\t"payable": false,\n' +
+        '\t\t"stateMutability": "view",\n' +
+        '\t\t"type": "function"\n' +
+        '\t},\n' +
+        '\t{\n' +
+        '\t\t"constant": false,\n' +
+        '\t\t"inputs": [\n' +
+        '\t\t\t{\n' +
+        '\t\t\t\t"name": "id",\n' +
+        '\t\t\t\t"type": "uint256"\n' +
+        '\t\t\t}\n' +
+        '\t\t],\n' +
+        '\t\t"name": "challenge",\n' +
+        '\t\t"outputs": [],\n' +
+        '\t\t"payable": false,\n' +
+        '\t\t"stateMutability": "nonpayable",\n' +
+        '\t\t"type": "function"\n' +
+        '\t},\n' +
+        '\t{\n' +
+        '\t\t"constant": true,\n' +
+        '\t\t"inputs": [],\n' +
+        '\t\t"name": "tasksNum",\n' +
+        '\t\t"outputs": [\n' +
+        '\t\t\t{\n' +
+        '\t\t\t\t"name": "",\n' +
+        '\t\t\t\t"type": "uint256"\n' +
+        '\t\t\t}\n' +
+        '\t\t],\n' +
+        '\t\t"payable": false,\n' +
+        '\t\t"stateMutability": "view",\n' +
         '\t\t"type": "function"\n' +
         '\t},\n' +
         '\t{\n' +
@@ -91,8 +231,8 @@ $(document).ready(function() {
         '\t\t\t\t\t{\n' +
         '\t\t\t\t\t\t"components": [\n' +
         '\t\t\t\t\t\t\t{\n' +
-        '\t\t\t\t\t\t\t\t"name": "x",\n' +
-        '\t\t\t\t\t\t\t\t"type": "uint256"\n' +
+        '\t\t\t\t\t\t\t\t"name": "input",\n' +
+        '\t\t\t\t\t\t\t\t"type": "uint256[5]"\n' +
         '\t\t\t\t\t\t\t}\n' +
         '\t\t\t\t\t\t],\n' +
         '\t\t\t\t\t\t"name": "data",\n' +
@@ -101,8 +241,16 @@ $(document).ready(function() {
         '\t\t\t\t\t{\n' +
         '\t\t\t\t\t\t"components": [\n' +
         '\t\t\t\t\t\t\t{\n' +
-        '\t\t\t\t\t\t\t\t"name": "x",\n' +
-        '\t\t\t\t\t\t\t\t"type": "uint256"\n' +
+        '\t\t\t\t\t\t\t\t"name": "a",\n' +
+        '\t\t\t\t\t\t\t\t"type": "uint256[2]"\n' +
+        '\t\t\t\t\t\t\t},\n' +
+        '\t\t\t\t\t\t\t{\n' +
+        '\t\t\t\t\t\t\t\t"name": "b",\n' +
+        '\t\t\t\t\t\t\t\t"type": "uint256[2][2]"\n' +
+        '\t\t\t\t\t\t\t},\n' +
+        '\t\t\t\t\t\t\t{\n' +
+        '\t\t\t\t\t\t\t\t"name": "c",\n' +
+        '\t\t\t\t\t\t\t\t"type": "uint256[2]"\n' +
         '\t\t\t\t\t\t\t}\n' +
         '\t\t\t\t\t\t],\n' +
         '\t\t\t\t\t\t"name": "proof",\n' +
@@ -114,7 +262,7 @@ $(document).ready(function() {
         '\t\t\t\t\t},\n' +
         '\t\t\t\t\t{\n' +
         '\t\t\t\t\t\t"name": "timestamp",\n' +
-        '\t\t\t\t\t\t"type": "uint96"\n' +
+        '\t\t\t\t\t\t"type": "uint256"\n' +
         '\t\t\t\t\t},\n' +
         '\t\t\t\t\t{\n' +
         '\t\t\t\t\t\t"name": "status",\n' +
@@ -145,155 +293,13 @@ $(document).ready(function() {
         '\t\t],\n' +
         '\t\t"name": "Challenged",\n' +
         '\t\t"type": "event"\n' +
-        '\t},\n' +
-        '\t{\n' +
-        '\t\t"constant": true,\n' +
-        '\t\t"inputs": [\n' +
-        '\t\t\t{\n' +
-        '\t\t\t\t"name": "id",\n' +
-        '\t\t\t\t"type": "uint256"\n' +
-        '\t\t\t}\n' +
-        '\t\t],\n' +
-        '\t\t"name": "getDataById",\n' +
-        '\t\t"outputs": [\n' +
-        '\t\t\t{\n' +
-        '\t\t\t\t"components": [\n' +
-        '\t\t\t\t\t{\n' +
-        '\t\t\t\t\t\t"components": [\n' +
-        '\t\t\t\t\t\t\t{\n' +
-        '\t\t\t\t\t\t\t\t"name": "x",\n' +
-        '\t\t\t\t\t\t\t\t"type": "uint256"\n' +
-        '\t\t\t\t\t\t\t}\n' +
-        '\t\t\t\t\t\t],\n' +
-        '\t\t\t\t\t\t"name": "data",\n' +
-        '\t\t\t\t\t\t"type": "tuple"\n' +
-        '\t\t\t\t\t},\n' +
-        '\t\t\t\t\t{\n' +
-        '\t\t\t\t\t\t"components": [\n' +
-        '\t\t\t\t\t\t\t{\n' +
-        '\t\t\t\t\t\t\t\t"name": "x",\n' +
-        '\t\t\t\t\t\t\t\t"type": "uint256"\n' +
-        '\t\t\t\t\t\t\t}\n' +
-        '\t\t\t\t\t\t],\n' +
-        '\t\t\t\t\t\t"name": "proof",\n' +
-        '\t\t\t\t\t\t"type": "tuple"\n' +
-        '\t\t\t\t\t},\n' +
-        '\t\t\t\t\t{\n' +
-        '\t\t\t\t\t\t"name": "submitter",\n' +
-        '\t\t\t\t\t\t"type": "address"\n' +
-        '\t\t\t\t\t},\n' +
-        '\t\t\t\t\t{\n' +
-        '\t\t\t\t\t\t"name": "timestamp",\n' +
-        '\t\t\t\t\t\t"type": "uint96"\n' +
-        '\t\t\t\t\t},\n' +
-        '\t\t\t\t\t{\n' +
-        '\t\t\t\t\t\t"name": "status",\n' +
-        '\t\t\t\t\t\t"type": "uint8"\n' +
-        '\t\t\t\t\t}\n' +
-        '\t\t\t\t],\n' +
-        '\t\t\t\t"name": "task",\n' +
-        '\t\t\t\t"type": "tuple"\n' +
-        '\t\t\t}\n' +
-        '\t\t],\n' +
-        '\t\t"payable": false,\n' +
-        '\t\t"stateMutability": "view",\n' +
-        '\t\t"type": "function"\n' +
-        '\t},\n' +
-        '\t{\n' +
-        '\t\t"constant": true,\n' +
-        '\t\t"inputs": [],\n' +
-        '\t\t"name": "last5Timestamps",\n' +
-        '\t\t"outputs": [\n' +
-        '\t\t\t{\n' +
-        '\t\t\t\t"name": "result",\n' +
-        '\t\t\t\t"type": "uint256[5]"\n' +
-        '\t\t\t}\n' +
-        '\t\t],\n' +
-        '\t\t"payable": false,\n' +
-        '\t\t"stateMutability": "view",\n' +
-        '\t\t"type": "function"\n' +
-        '\t},\n' +
-        '\t{\n' +
-        '\t\t"constant": true,\n' +
-        '\t\t"inputs": [],\n' +
-        '\t\t"name": "stake",\n' +
-        '\t\t"outputs": [\n' +
-        '\t\t\t{\n' +
-        '\t\t\t\t"name": "",\n' +
-        '\t\t\t\t"type": "uint256"\n' +
-        '\t\t\t}\n' +
-        '\t\t],\n' +
-        '\t\t"payable": false,\n' +
-        '\t\t"stateMutability": "view",\n' +
-        '\t\t"type": "function"\n' +
-        '\t},\n' +
-        '\t{\n' +
-        '\t\t"constant": true,\n' +
-        '\t\t"inputs": [\n' +
-        '\t\t\t{\n' +
-        '\t\t\t\t"name": "",\n' +
-        '\t\t\t\t"type": "uint256"\n' +
-        '\t\t\t}\n' +
-        '\t\t],\n' +
-        '\t\t"name": "tasks",\n' +
-        '\t\t"outputs": [\n' +
-        '\t\t\t{\n' +
-        '\t\t\t\t"components": [\n' +
-        '\t\t\t\t\t{\n' +
-        '\t\t\t\t\t\t"name": "x",\n' +
-        '\t\t\t\t\t\t"type": "uint256"\n' +
-        '\t\t\t\t\t}\n' +
-        '\t\t\t\t],\n' +
-        '\t\t\t\t"name": "data",\n' +
-        '\t\t\t\t"type": "tuple"\n' +
-        '\t\t\t},\n' +
-        '\t\t\t{\n' +
-        '\t\t\t\t"components": [\n' +
-        '\t\t\t\t\t{\n' +
-        '\t\t\t\t\t\t"name": "x",\n' +
-        '\t\t\t\t\t\t"type": "uint256"\n' +
-        '\t\t\t\t\t}\n' +
-        '\t\t\t\t],\n' +
-        '\t\t\t\t"name": "proof",\n' +
-        '\t\t\t\t"type": "tuple"\n' +
-        '\t\t\t},\n' +
-        '\t\t\t{\n' +
-        '\t\t\t\t"name": "submitter",\n' +
-        '\t\t\t\t"type": "address"\n' +
-        '\t\t\t},\n' +
-        '\t\t\t{\n' +
-        '\t\t\t\t"name": "timestamp",\n' +
-        '\t\t\t\t"type": "uint96"\n' +
-        '\t\t\t},\n' +
-        '\t\t\t{\n' +
-        '\t\t\t\t"name": "status",\n' +
-        '\t\t\t\t"type": "uint8"\n' +
-        '\t\t\t}\n' +
-        '\t\t],\n' +
-        '\t\t"payable": false,\n' +
-        '\t\t"stateMutability": "view",\n' +
-        '\t\t"type": "function"\n' +
-        '\t},\n' +
-        '\t{\n' +
-        '\t\t"constant": true,\n' +
-        '\t\t"inputs": [],\n' +
-        '\t\t"name": "verifier",\n' +
-        '\t\t"outputs": [\n' +
-        '\t\t\t{\n' +
-        '\t\t\t\t"name": "",\n' +
-        '\t\t\t\t"type": "address"\n' +
-        '\t\t\t}\n' +
-        '\t\t],\n' +
-        '\t\t"payable": false,\n' +
-        '\t\t"stateMutability": "view",\n' +
-        '\t\t"type": "function"\n' +
         '\t}\n' +
         ']';
     ControllerAbi = JSON.parse(ControllerAbi);
     //console.log(ControllerAbi);
     let ControllerContract = web3.eth.contract(ControllerAbi);
     //console.log(ControllerContract);
-    let contractInstance = ControllerContract.at(controllerAddress);
+    contractInstance = ControllerContract.at(controllerAddress);
     //console.log(contractInstance);
 /*
     // save fluence to global variable, so it can be accessed from Developer Console
@@ -308,13 +314,28 @@ $(document).ready(function() {
         return getResultAsString(result).then((r) => console.log(r))
     };
 */
-console.log(contractInstance);
-contractInstance.last5Timestamps(function (err, result) {
-    console.log(result);
-    for (let i = 0; i < 5; i++) {
-        $('#state-id-' + i).text(result[i]);
-    }
-});
+
+
+    contractInstance.tasksNum(function (err, result) {
+        console.log(result);
+        let maxLen = Math.min(result, 5);
+        for (let i = 0; i < maxLen; i++) {
+            let data = result - 1 - i;
+            let fluenceResponse = session.request(`{"action": "Check", "proof_id": ${data}}`);
+
+            $('#state-id-' + i).text(result - 1 - i);
+            if (fluenceResponse.hasOwnProperty('verified')) {
+                if (fluenceResponse.verified) {
+                    // все хорошо - мы проверили в флюенсе
+                    $('challenge-' + i).prop('disabled', true);
+                } else {
+                    // мы проверили, пруф неправильный
+                    $('#challenge-' + i).text('Challenge on Ethereum!')
+                }
+            }
+        }
+    });
+
 
 
     /*window.onload = function () {
@@ -354,29 +375,36 @@ contractInstance.last5Timestamps(function (err, result) {
     };*/
 
 
-    $('button').click(function () {
-        //console.log($(this)[0].id.slice(-1));
-        if ($(this)[0].textContent === 'Challenge on Fluence!') {
-            let id = $(this)[0].id.slice(-1);
-            //console.log(id);
-            //console.log(contractInstance);
-            contractInstance.getDataById(id, function (err, result) {
-                //console.log(err);
-                console.log(result);
-        //         let fluenceResponse = session.request(JSON.stringify(request));
-        //         $('#state-status-fluence-' + i).text(result);
-        //         if (fluenceResponse === true) {
-        //             $('challenge-' + i).prop('disabled', true);
-        //         } else {
-        //             $('#challenge-' + i).text('Challenge on Ethereum!')
-        //         }
-            });
-        // } else {
-        //     challengeEthereum(id);
-        }
-    });
+
 });
 
+$('button').click(function () {
+    //console.log($(this)[0].id.slice(-1));
+    if ($(this)[0].textContent === 'Challenge on Fluence!') {
+        let id = $(this)[0].id.slice(-1);
+        let data = $('#state-id-' + id)[0].textContent;
+        console.log(data);
+        //console.log(contractInstance);
+        contractInstance.taskDataById(data, function (err, result) {
+            //console.log(err);
+            console.log(result);
+            let public_par = result.slice(0, 5);
+            let proof = result.slice(5, 13);
+            let fluenceResponse = session.request(`{"action": "Verify", "proof_id": ${data}, "public_par": ${public_par}, "proof": ${proof}}`);
+            console.log(fluenceResponse);
+            $('#state-status-fluence-' + i).text(result);
+            if (fluenceResponse.result) {
+                // все хорошо - мы проверили в флюенсе
+                $('challenge-' + i).prop('disabled', true);
+            } else {
+                // мы проверили, пруф неправильный
+                $('#challenge-' + i).text('Challenge on Ethereum!')
+            }
+        });
+    } else {
+        challengeEthereum(data);
+    }
+});
 function challengeEthereum(jobId) {
     contractInstance.challenge.sendTransaction(jobId, function (err, txHash) {
         $('challenge-' + jobId).text('See tx on Etherscan!').attr("href", "https://ropsten.etherscan.io/tx/" + txHash);
