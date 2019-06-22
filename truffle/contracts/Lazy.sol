@@ -69,19 +69,26 @@ contract Lazy is Structs {
     }
 
     function taskDataById(uint id) external view returns(
-            uint[5] memory input, 
-            uint[2] memory a,
-            uint[4] memory b,
-            uint[2] memory c 
+            uint[13] memory data
             ) {
         Task memory task = tasks[id];
-        input = task.data.input;
-        a = task.proof.a;
-        b[0] = task.proof.b[0][0];
-        b[1] = task.proof.b[0][1];
-        b[2] = task.proof.b[1][0];
-        b[3] = task.proof.b[1][1];
-        c = task.proof.c;
+        
+        data[0] = task.data.input[0];
+        data[1] = task.data.input[1];
+        data[2] = task.data.input[2];
+        data[3] = task.data.input[3];
+        data[4] = task.data.input[4];
+        
+        data[5] = task.proof.a[0];
+        data[6] = task.proof.a[1];
+        
+        data[7] = task.proof.b[0][0];
+        data[8] = task.proof.b[0][1];
+        data[9] = task.proof.b[1][0];
+        data[10] = task.proof.b[1][0];
+        
+        data[11] = task.proof.c[0];
+        data[12] = task.proof.c[1];
     }
 
 
