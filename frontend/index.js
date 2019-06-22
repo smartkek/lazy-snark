@@ -327,7 +327,7 @@ $(document).ready(function() {
             if (fluenceResponse.hasOwnProperty('verified')) {
                 if (fluenceResponse.verified) {
                     // все хорошо - мы проверили в флюенсе
-                    $('challenge-' + i).prop('disabled', true);
+                    $('#challenge-' + i).prop('disabled', true);
                 } else {
                     // мы проверили, пруф неправильный
                     $('#challenge-' + i).text('Challenge on Ethereum!')
@@ -374,8 +374,6 @@ $(document).ready(function() {
 
     };*/
 
-
-
 });
 
 $('button').click(function () {
@@ -395,7 +393,7 @@ $('button').click(function () {
             $('#state-status-fluence-' + i).text(result);
             if (fluenceResponse.result) {
                 // все хорошо - мы проверили в флюенсе
-                $('challenge-' + i).prop('disabled', true);
+                $('#challenge-' + i).prop('disabled', true);
             } else {
                 // мы проверили, пруф неправильный
                 $('#challenge-' + i).text('Challenge on Ethereum!')
@@ -405,9 +403,10 @@ $('button').click(function () {
         challengeEthereum(data);
     }
 });
+
 function challengeEthereum(jobId) {
     contractInstance.challenge.sendTransaction(jobId, function (err, txHash) {
-        $('challenge-' + jobId).text('See tx on Etherscan!').attr("href", "https://ropsten.etherscan.io/tx/" + txHash);
+        $('#challenge-' + jobId).text('See tx on Etherscan!').attr("href", "https://ropsten.etherscan.io/tx/" + txHash);
     });
 }
 
