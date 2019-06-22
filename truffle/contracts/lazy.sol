@@ -1,20 +1,8 @@
 pragma solidity ^0.5.4;
 pragma experimental ABIEncoderV2;
 
-interface Structs {
-    struct Data {
-        uint x;
-    }
-    
-    struct Proof {
-        uint x;
-    }
-
-}
-
-contract Verifier is Structs {
-    function isValid(Data calldata data, Proof calldata proof) external returns (bool);
-}
+import "./IVerifier.sol";
+import "./Structs.sol";
 
 contract Lazy is Structs {
     event Submitted(address indexed sender, uint256 index, Task task);
@@ -26,14 +14,14 @@ contract Lazy is Structs {
         Data data;
         Proof proof;
         address payable submitter;
-        uint96 timestamp;
+        uint timestamp;
         Status status;
     }
     
     Task[] public tasks;
     
     uint256 public stake;
-    Verifier public verifier;
+    IVerifier public verifier;
 
     /// @dev This function submits data.
     /// @param data - public inptut for zkp
@@ -75,6 +63,21 @@ contract Lazy is Structs {
         
         task.status = Status.FINALIZED;
         msg.sender.transfer(stake);
+    }
+
+
+
+    function last5Timestamps() view external returns (uint256[5] memory result) {
+        uint256 length = tasks.length;        
+        for (uint256 i = 1; i <= 5; i++) {
+            result[i - 1] = tasks[length - i].timestamp;
+        }
+        
+        return result;
+    }
+    
+    function getDataById(uint256 id) view external returns (Task memory task) {
+        task = tasks[tasks.length - 1 - id];
     }
 }
     
