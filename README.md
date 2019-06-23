@@ -1,6 +1,6 @@
 # LAZY SNARK: trustless off-chain zk-proof verification.
 ## Abstract
-In Ethereum, it is expensive to check zero-knowledge proofs on-chain. So, we propose to use Fluence to do heavy-lifting off-chain and only go on-chain to challenge incorrect proofs. Our project should help exisiting Ethereum projects that rely on zk-proofs to achieve privacy, scalability, and security.
+In Ethereum, it is expensive to check zero-knowledge proofs on-chain. So, we propose to use Fluence to do heavy-lifting off-chain and only go on-chain to challenge incorrect proofs. Our project should help exisiting Ethereum projects that rely on zk-proofs to achieve privacy, scalability, and trustlessness.
 ## Why
 Let us say, there is a project that needs to verify zk-proofs in Ethereum smart contract. The problem is that zk-proof verification is a heavy computational task and thus costs a lot of gas. As a result, checking proofs on-chain is expensive, and is susceptible to network congestion. 
 ## What
@@ -26,7 +26,7 @@ To better understand the workflow, please review the scheme.
 ![Image](Scheme.png "Scheme")
 
 ## Benefits
-LAZY SNARK provides the following benefits compared to checking zk-proofs on-chain:
+LAZY SNARK (not to be confused with Lady Stark) provides the following benefits compared to checking zk-proofs on-chain:
 - It doesn't require much gas. In case of e.g. mass exit the zk-proofs verifications will take all the gas in the block. LAZY SNARK won't.
 - It is ~10 times cheaper than verifying zk-proofs in Ethereum smart contract. Checking zk-proof on-chain costs ~$1 (gasprice and ETH price on June 23, 2019). Checking them in Fluence costs ~$0.01. Since we still need to put data and proofs on-chain, the whole system operation will cost 10 times less than checking the proofs on-chain.
 
@@ -36,3 +36,12 @@ LAZY SNARK provides the following benefits compared to checking zk-proofs locall
 - The results are public, so the users who seek for invalid proofs won't check the proofs that has already been checked.
 
 ## Use cases
+LAZY SNARK can be used in the following cases (and not only in these):
+- Plasma implementations that require zk-proofs.
+- Mixers.
+- Private money like ZkDai.
+- Games.
+- Many other systems that use zk-proofs. For now, they are mostly limited to money-like systems, hence the examples above. However, it is only the matter of imagination what other use cases need zk-proofs, scalability, and trustlessness.
+
+## Build instructions
+To be provided :) 
