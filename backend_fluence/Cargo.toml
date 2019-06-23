@@ -1,0 +1,27 @@
+[package]
+name = "proof"
+version = "0.1.0"
+authors = ["Fluence Labs"]
+publish = false
+description = "Trustless off-chain zk-proof verification"
+edition = "2018"
+
+[lib]
+name = "proof"
+path = "src/lib.rs"
+crate-type = ["cdylib"]
+
+[profile.release]
+debug = false
+lto = true
+opt-level = "z"
+panic = "abort"
+
+[dependencies]
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0.38"
+linked-hash-map = "0.5.1"
+fluence = { version = "0.1.5", features = ["wasm_logger"] }
+
+bellman_ce = "0.3.0"
+
