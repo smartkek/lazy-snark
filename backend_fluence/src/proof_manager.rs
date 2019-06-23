@@ -28,6 +28,7 @@ impl ProofManager {
             result = 0
         }
 
+        /*
         //////////////// vk
 
         let vk_byte = "
@@ -79,6 +80,7 @@ impl ProofManager {
             &proof,
             pub_input
         ).unwrap();
+        */
 
         // update proof status
         self.proofs.insert(proof_id, result);
