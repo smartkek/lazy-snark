@@ -1,11 +1,11 @@
 pragma solidity ^0.5.4;
 pragma experimental ABIEncoderV2;
 
-import "./Structs.sol";
+import "./IVerifier.sol";
 import "./Verifier.sol";
 
 
-contract VerifierProxy is Structs {
+contract VerifierProxy is IVerifier {
     Verifier internal verifier;
 
     constructor(Verifier ver) public {
