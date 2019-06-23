@@ -22,3 +22,5 @@ Here is the workflow:
    b) If the proof is false, the user checks the same proof in the smart contract. In that case the user is sure that the proof is FALSE and thus the user will get the reward.
 
 To better understand the workflow, please review the scheme.
+
+![Image](Scheme.png "Scheme")
