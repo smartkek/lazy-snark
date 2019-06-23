@@ -19,7 +19,7 @@ Here is the workflow:
 2. The user takes (data, proof) from the smart contract and uploads it to the back end (Fluence).
 3. The back end checkes the proof.
 4. a) If the proof is correct, it is stored by the back end with TRUE flag. Other users can see it an will not check this proof again.
-   b) If the proof is false, the user checks the same proof in the smart contract. In that case the user is sure that the proof is FALSE and thus the user will get the reward.
+b) If the proof is false, the user checks the same proof in the smart contract. In that case the user is sure that the proof is FALSE and thus the user will get the reward.
 
 To better understand the workflow, please review the scheme.
 
