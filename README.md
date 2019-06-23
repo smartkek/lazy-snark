@@ -17,7 +17,7 @@ Here is the workflow:
 1. The proof supplier uploads (data, proof) to the smart contract.
 2. The user takes (data, proof) from the smart contract and sends it to the back end.
 3. The back end checkes the proof.
-4.
+4. The following actions depend on the result of the check:
 - a. If the proof is valid, it is stored by the back end with TRUE flag. Other users can see it in the front end and will not check this proof again.
 - b. If the proof is invalid, it is stored by the back end with FALSE flag. The user challenges this proof in the smart contract. In that case the user is sure that the proof is FALSE and thus the user will get the reward.
 
@@ -26,6 +26,12 @@ To better understand the workflow, please review the scheme.
 ![Image](Scheme.png "Scheme")
 
 ## Benefits
+LAZY SNARK provides the following benefits compared to checking zk-proofs on-chain:
+- It doesn't require much gas. In case of e.g. mass exit the zk-proofs verifications will take all the gas in the block. LAZY SNARK won't.
+- It is ~10 times cheaper than verifying zk-proofs in Ethereum smart contract. Checking zk-proof on-chain costs ~$1 (gasprice and ETH price on June 23, 2019). Checking them in Fluence costs ~$0.01. Since we still need to put data and proofs on-chain, the whole system operation will cost 10 times less than checking the proofs on-chain.
+LAZY SNARK provides the following benefits compared to checking zk-proofs locally:
+- It is trustless unlike checking zk-proofs locally. All the proof check results are available on Fluence via Arweave front end.
+- The results are public, so everyone will be able to see which proofs are valid and which proof suppliers are honest.
+- The results are public, so the users who seek for invalid proofs won't check the proofs that has already been checked.
 
-юзкейсы
-
+## Use cases
