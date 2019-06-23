@@ -19,9 +19,16 @@ contract Lazy is Structs {
     }
     
     Task[] public tasks;
+    function tasksNum() external view returns(uint) {
+        return tasks.length;
+    }
     
     uint256 public stake;
     IVerifier public verifier;
+
+    constructor(IVerifier _verifier) public {
+        verifier = _verifier;
+    }
 
     /// @dev This function submits data.
     /// @param data - public inptut for zkp
@@ -29,7 +36,7 @@ contract Lazy is Structs {
     function submit(Data calldata data, Proof calldata proof) external payable {
         require(msg.value == stake);
 
-        Task memory task = Task(data, proof, msg.sender, uint96(now), Status.UNCHECKED);
+        Task memory task = Task(data, proof, msg.sender, now, Status.UNCHECKED);
         uint index = tasks.push(task);
 
         emit Submitted(msg.sender, index, task);
@@ -65,19 +72,27 @@ contract Lazy is Structs {
         msg.sender.transfer(stake);
     }
 
-
-
-    function last5Timestamps() view external returns (uint256[5] memory result) {
-        uint256 length = tasks.length;        
-        for (uint256 i = 1; i <= 5; i++) {
-            result[i - 1] = tasks[length - i].timestamp;
-        }
+    function taskDataById(uint id) external view returns(
+            uint[13] memory data
+            ) {
+        Task memory task = tasks[id];
         
-        return result;
-    }
-    
-    function getDataById(uint256 id) view external returns (Task memory task) {
-        task = tasks[tasks.length - 1 - id];
+        data[0] = task.data.input[0];
+        data[1] = task.data.input[1];
+        data[2] = task.data.input[2];
+        data[3] = task.data.input[3];
+        data[4] = task.data.input[4];
+        
+        data[5] = task.proof.a[0];
+        data[6] = task.proof.a[1];
+        
+        data[7] = task.proof.b[0][0];
+        data[8] = task.proof.b[0][1];
+        data[9] = task.proof.b[1][0];
+        data[10] = task.proof.b[1][1];
+        
+        data[11] = task.proof.c[0];
+        data[12] = task.proof.c[1];
     }
 }
     
