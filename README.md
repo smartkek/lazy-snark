@@ -1,18 +1,18 @@
 # LAZY SNARK: trustless off-chain zk-proof verification.
 ## Abstract
-In Ethereum, it is expensive to check zk-proofs on-chain, so we propose to use Fluence to do heavy-lifting off-chain and only go on-chain to challenge incorrect data/proof combination.
+In Ethereum, it is expensive to check zk-proofs on-chain, so we propose to use Fluence to do heavy-lifting off-chain and only go on-chain to challenge incorrect proofs. Our project should help exisiting Ethereum projects that rely on zkp to achieve privacy, scalability and other nice qualities.
 ## Why
-Let us say, we need to verify zk-proofs in Ethereum smart contract. The problem is that zk-proof verification is a heavy computational task and thus costs a lot of gas. As a result, checking proofs on-chain is not only expensive, but also takes a lot of space in the block. This may lead to serious problems, e.g. in case of mass exit.
+Let us say, there is a project that needs to verify zk-proofs in Ethereum smart contract. The problem is that zk-proof verification is a heavy computational task and thus costs a lot of gas. As a result, checking proofs on-chain is expensive, and is susceptible to network congestion. 
 ## What
-We suggest checking proofs on Fluence instead. This option does not has gas problem, is much cheaper, but is also trustless.
+We suggest checking proofs on Fluence instead. This option does not has gas problem, is much cheaper, and is trustless. 
 
 ## How it works
 The process includes the following entities:
-- Ethereum smart contract that stores (data, proof) pairs and implements on-chain proof verification. In case the proof is not correct, the smart contract rewards the user who checked this proof with ether.
-- Operator who uploads (data, proof) pairs to the smart contract.
-- Fluence back end that also implements proof verification, but off-chain. It also stores all the check results.
-- Arweave front-end. The user performs all the actions via the front.end.
-- The user of our system. The user wants to find false proofs to check them in a smart contract and get a reward.
+- Ethereum smart contract that stores (data, proof) pairs and implements on-chain proof verification. In case the proof is not correct, the smart contract rewards the user who challenged this proof with ether.
+- Ethereum project Operator who uploads (data, proof) pairs to the smart contract.
+- Fluence back end that implements off-chain proof verification. It also stores proof verification results.
+- Ethereum project user. The user checks if Operator provides valid proofs and challenges invalid ones using smart contract to get a reward.
+- Arweave front-end. The user performs all the actions via the front end.
 
 Here is the workflow:
 1. The operator uploads (data, proof) to the smart contract.
