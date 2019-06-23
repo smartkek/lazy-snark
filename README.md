@@ -17,8 +17,8 @@ Here is the workflow:
 1. The proof supplier uploads (data, proof) to the smart contract.
 2. The user takes (data, proof) from the smart contract and sends it to the back end.
 3. The back end checkes the proof.
-4. a) If the proof is valid, it is stored by the back end with TRUE flag. Other users can see it in the front end and will not check this proof again.
-   b) If the proof is invalid, it is stored by the back end with FALSE flag. The user challenges this proof in the smart contract. In that case the user is sure that the proof is FALSE and thus the user will get the reward.
+4. a. If the proof is valid, it is stored by the back end with TRUE flag. Other users can see it in the front end and will not check this proof again.
+4. b. If the proof is invalid, it is stored by the back end with FALSE flag. The user challenges this proof in the smart contract. In that case the user is sure that the proof is FALSE and thus the user will get the reward.
 
 To better understand the workflow, please review the scheme.
 
