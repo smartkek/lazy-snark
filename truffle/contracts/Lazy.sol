@@ -85,24 +85,10 @@ contract Lazy is Structs {
         data[7] = task.proof.b[0][0];
         data[8] = task.proof.b[0][1];
         data[9] = task.proof.b[1][0];
-        data[10] = task.proof.b[1][0];
+        data[10] = task.proof.b[1][1];
         
         data[11] = task.proof.c[0];
         data[12] = task.proof.c[1];
-    }
-
-
-    function last5Timestamps() view external returns (uint256[5] memory result) {
-        uint256 length = tasks.length;        
-        for (uint256 i = 1; i <= 5; i++) {
-            result[i - 1] = tasks[length - i].timestamp;
-        }
-        
-        return result;
-    }
-    
-    function getDataById(uint256 id) view external returns (Task memory task) {
-        task = tasks[tasks.length - 1 - id];
     }
 }
     
