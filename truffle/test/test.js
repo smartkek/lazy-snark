@@ -9,11 +9,14 @@ contract("Testing Lazy", accounts => {
     let tasksNum = await instance.tasksNum.call();
     assert.equal(tasksNum.valueOf(), 2);
   });
-  it("should verify correct proof", async () => {
+
+  it("should detect incorrect proof", async () => {
     let instance = await Lazy.deployed();
-    console.log("let's try to verify");
-    let tasksNum = await instance.challenge.call(1);
-    console.log("should be ok");
+    let task = await instance.tasks(0);
+    assert.equal(task.status, 0);
+    await instance.challenge(0);   
+    task = await instance.tasks(0);
+    assert.equal(task.status, 2);
   });
 
 });
