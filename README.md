@@ -29,6 +29,7 @@ To better understand the workflow, please review the scheme.
 LAZY SNARK provides the following benefits compared to checking zk-proofs on-chain:
 - It doesn't require much gas. In case of e.g. mass exit the zk-proofs verifications will take all the gas in the block. LAZY SNARK won't.
 - It is ~10 times cheaper than verifying zk-proofs in Ethereum smart contract. Checking zk-proof on-chain costs ~$1 (gasprice and ETH price on June 23, 2019). Checking them in Fluence costs ~$0.01. Since we still need to put data and proofs on-chain, the whole system operation will cost 10 times less than checking the proofs on-chain.
+
 LAZY SNARK provides the following benefits compared to checking zk-proofs locally:
 - It is trustless unlike checking zk-proofs locally. All the proof check results are available on Fluence via Arweave front end.
 - The results are public, so everyone will be able to see which proofs are valid and which proof suppliers are honest.
