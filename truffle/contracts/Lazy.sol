@@ -26,6 +26,10 @@ contract Lazy is Structs {
     uint256 public stake;
     IVerifier public verifier;
 
+    constructor(IVerifier _verifier) public {
+        verifier = _verifier;
+    }
+
     /// @dev This function submits data.
     /// @param data - public inptut for zkp
     /// @param proof - proof that verifies input
