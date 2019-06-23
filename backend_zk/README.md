@@ -10,3 +10,5 @@
 4. generate a proof of computation ```zokrates generate-proof```
 
 5. export a solidity verifier ```zokrates export-verifier```
+
+* Generated folder contains already generated files.
