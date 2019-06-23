@@ -6,8 +6,8 @@ use serde::{Deserialize, Serialize};
 pub enum Request {
     Verify {
         proof_id: u64,
-        public_par: [u64; 5],
-        proof: [u64; 8],
+        public_par: [f64; 5],
+        proof: [f64; 8],
     },
     Check {
         proof_id: u64,
@@ -18,6 +18,6 @@ pub enum Request {
 #[serde(untagged)]
 pub enum Response {
     Verify { result: u8 },
-    Check { verifed: u8 },
+    Check { verified: u8 },
     Error { message: String },
 }
