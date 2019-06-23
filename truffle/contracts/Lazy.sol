@@ -36,7 +36,7 @@ contract Lazy is Structs {
     function submit(Data calldata data, Proof calldata proof) external payable {
         require(msg.value == stake);
 
-        Task memory task = Task(data, proof, msg.sender, uint96(now), Status.UNCHECKED);
+        Task memory task = Task(data, proof, msg.sender, now, Status.UNCHECKED);
         uint index = tasks.push(task);
 
         emit Submitted(msg.sender, index, task);
