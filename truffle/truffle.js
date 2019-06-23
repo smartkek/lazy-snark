@@ -1,6 +1,6 @@
-/*require('babel-register');
-require('babel-polyfill');
-*/
+// require('babel-register');
+// require('babel-polyfill');
+
 var HDWalletProvider = require("truffle-hdwallet-provider");
 
 var mnemonicRopsten = "...";
@@ -41,7 +41,6 @@ module.exports = {
           network_id: 42,
           from: deployerAddressKovan.toLowerCase(),
         }
-
     },
     compilers: {
         solc: {
