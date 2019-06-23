@@ -1,7 +1,7 @@
 //CONNECT FLUENCE
 import * as fluence from "fluence";
 
-let session;
+//let session;
 window.onload = function () {
     let contractAddress = "0xeFF91455de6D4CF57C141bD8bF819E5f873c1A01";
 
@@ -14,25 +14,17 @@ window.onload = function () {
     // create a session between client and backend application, and then join the game
     fluence.connect(contractAddress, appId, ethUrl).then((s) => {
         console.log("Session created");
-        session = s;
+        window.session = s;
     });
 };
 
+window.getResultAsString = function (result) {
+    return result.result().then((r) => r.asString())
+};
 
 var contractInstance;
 
 $(document).ready(function() {
-    // window.addEventListener('load', () => {
-    //     if (typeof Web3 !== 'undefined') {
-    //         let web3js = new Web3(web3.currentProvider);
-    //     } else {
-    //         console.log('No web3? You should consider trying MetaMask!');
-    //         let web3js = new Web3(new Web3.providers.HttpProvider('http://localhost:8080'));
-    //     }
-    // });
-
-    // console.log('provider');
-    // console.log(web3js);
 
     var controllerAddress = '0x1cca1f0be338c747b11a16aba8d0905251628bdf';
     let ControllerAbi = [
@@ -377,26 +369,31 @@ $(document).ready(function() {
     ];
     let ControllerContract = web3.eth.contract(ControllerAbi);
     contractInstance = ControllerContract.at(controllerAddress);
+    window.ethereum.enable();
 
     contractInstance.tasksNum(function (err, result) {
-        console.log(result);
         let maxLen = Math.min(result, 5);
         for (let i = 0; i < maxLen; i++) {
             let data = result - 1 - i;
-            // let fluenceResponse = session.request(`{"action": "Check", "proof_id": ${data}}`);
-            // console.log(fluenceResponse);
-            $('#state-id-' + i).text(result - 1 - i);
-            if (fluenceResponse.hasOwnProperty('verified')) {
-                if (fluenceResponse.verified) {
-                    // все хорошо - мы проверили в флюенсе
-                    $('#state-status-fluence-' + i).text('TRUE by Fluence.');
-                    $('#challenge-' + i).prop('disabled', true);
+            $('#state-id-' + i).text(data);
+            let fluenceResponse_check = session.request(`{"action": "Check", "proof_id": ${data}}`);
+            getResultAsString(fluenceResponse_check).then(function (str) {
+                let fluenceResponse = JSON.parse(str);
+                console.log(fluenceResponse);
+                if (fluenceResponse.hasOwnProperty('verifed')) {
+                    if (fluenceResponse.verifed) {
+                        // все хорошо - мы проверили в флюенсе
+                        $('#state-status-fluence-' + i).text('TRUE by Fluence.');
+                        $('#challenge-' + i).prop('disabled', true);
+                    } else {
+                        // мы проверили, пруф неправильный
+                        $('#state-status-fluence-' + i).text('FALSE by Fluence.');
+                        $('#challenge-' + i).text('Challenge on Ethereum!')
+                    }
                 } else {
-                    // мы проверили, пруф неправильный
-                    $('#state-status-fluence-' + i).text('FALSE by Fluence.');
-                    $('#challenge-' + i).text('Challenge on Ethereum!')
+                    console.log('Task N ' + data + ' is not checked on Fluence!')
                 }
-            }
+            });
         }
     });
 });
@@ -410,28 +407,34 @@ $('button').click(function () {
             let public_par = result.slice(0, 5);
             let proof = result.slice(5, 13);
 
-            let fluenceResponse = session.request(`{"action": "Verify", "proof_id": ${data}, "public_par": ${public_par}, "proof": ${proof}}`);
-            console.log(fluenceResponse);
-            // let success = fluenceResponse.result === 1;
-            let success = false;
-            if (success) {
-                // все хорошо - мы проверили в флюенсе
-                $('#state-status-fluence-' + id).text('TRUE by Fluence.');
-                $('#challenge-' + id).prop('disabled', true);
-            } else {
-                // мы проверили, пруф неправильный
-                $('#state-status-fluence-' + id).text('FALSE by Fluence.');
-                $('#challenge-' + id).text('Challenge on Ethereum!')
-            }
+            let fluenceResponse_ver = session.request(`{"action": "Verify", "proof_id": ${data}, "public_par": [${public_par}], "proof": [${proof}]}`);
+            getResultAsString(fluenceResponse_ver).then(function (str) {
+                let fluenceResponse = JSON.parse(str);
+                let success = fluenceResponse.result === 1;
+                console.log(fluenceResponse);
+                if (success) {
+                    // все хорошо - мы проверили в флюенсе
+                    $('#state-status-fluence-' + id).text('TRUE by Fluence.');
+                    $('#challenge-' + id).prop('disabled', true);
+                } else {
+                    // мы проверили, пруф неправильный
+                    $('#state-status-fluence-' + id).text('FALSE by Fluence.');
+                    $('#challenge-' + id).text('Challenge on Ethereum!')
+                }
+            });
         });
+    } else if ($(this)[0].textContent === 'Challenge on Ethereum!') {
+        challengeEthereum(id, data);
     } else {
-        challengeEthereum(data);
+
     }
 });
 
-function challengeEthereum(jobId) {
-    console.log(jobId);
-    contractInstance.challenge.sendTransaction(jobId, function (err, txHash) {
-        $('#challenge-' + jobId).text('See tx on Etherscan!').attr("href", "https://ropsten.etherscan.io/tx/" + txHash);
+function challengeEthereum(id, data) {
+    console.log('Challenging task N ' + data + ' on Ethereum!');
+    contractInstance.challenge.sendTransaction(data, function (err, txHash) {
+        $('#challenge-' + id).remove();
+        $('#link-' + id).text('See tx on Etherscan!').attr("href", "https://rinkeby.etherscan.io/tx/" + txHash);
+
     });
 }

@@ -11,7 +11,7 @@ module.exports = {
         contentBase: './bundle',
         hot: true
     },
-    mode: "development",
+    mode: "production",
     module: {
         rules: [
             {
