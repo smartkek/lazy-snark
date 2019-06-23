@@ -1,8 +1,14 @@
 //CONNECT FLUENCE
 import * as fluence from "fluence";
 
-//let session;
-window.onload = function () {
+
+window.getResultAsString = function (result) {
+    return result.result().then((r) => r.asString())
+};
+
+var contractInstance;
+
+$(document).ready(function() {
     let contractAddress = "0xeFF91455de6D4CF57C141bD8bF819E5f873c1A01";
 
     // set ethUrl to `undefined` to use MetaMask instead of Ethereum node
@@ -16,17 +22,8 @@ window.onload = function () {
         console.log("Session created");
         window.session = s;
     });
-};
 
-window.getResultAsString = function (result) {
-    return result.result().then((r) => r.asString())
-};
-
-var contractInstance;
-
-$(document).ready(function() {
-
-    var controllerAddress = '0x1cca1f0be338c747b11a16aba8d0905251628bdf';
+    var lazyAddress = '0x1cca1f0be338c747b11a16aba8d0905251628bdf';
     let ControllerAbi = [
         {
             "constant": true,
@@ -368,7 +365,7 @@ $(document).ready(function() {
         }
     ];
     let ControllerContract = web3.eth.contract(ControllerAbi);
-    contractInstance = ControllerContract.at(controllerAddress);
+    contractInstance = ControllerContract.at(lazyAddress);
     window.ethereum.enable();
 
     contractInstance.tasksNum(function (err, result) {
