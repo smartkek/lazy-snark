@@ -3,6 +3,11 @@ extern crate sapling_crypto;
 extern crate crypto;
 extern crate rand;
 
+use std::error::Error;
+use std::io::prelude::*;
+use std::fs::File;
+use std::path::Path;
+
 use bellman::pairing::ff::{
     PrimeField,
     PrimeFieldRepr,
@@ -328,6 +333,26 @@ pub fn encode_fs_into_fr<E: JubjubEngine>(input: E::Fs)
     converted
 }
 
+pub fn print_to_file(p: &str, buf: &[u8]) {
+    let path = Path::new(p);
+    let display = path.display();
+
+    let mut file = match File::create(&path) {
+        Err(why) => panic!("couldn't create {}: {}",
+                           display,
+                           why.description()),
+        Ok(file) => file,
+    };
+
+    match file.write_all(buf) {
+        Err(why) => {
+            panic!("couldn't write to {}: {}", display,
+                                               why.description())
+        },
+        Ok(_) => println!("successfully wrote to {}", display),
+    }
+}
+
 fn main() {
     use bellman::pairing::bn256::*;
     use rand::{SeedableRng, Rng, XorShiftRng, Rand};
@@ -453,8 +478,7 @@ fn main() {
         generate_random_parameters(circuit, &mut rng).expect("must generate parameters")
     };
 
-    println!("alpha g1: {}", parameters.vk.alpha_g1);
-    println!("beta g2: {}", parameters.vk.beta_g2);
+    print_to_file("./vk.txt", format!("alpha g1: {} /n", parameters.vk.alpha_g1).as_bytes());
 
     let prepared_vk = prepare_verifying_key(&parameters.vk);
 
