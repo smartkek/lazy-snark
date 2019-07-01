@@ -430,7 +430,6 @@ $('button').click(function () {
 function challengeEthereum(id, data) {
     console.log('Challenging task N ' + data + ' on Ethereum!');
     contractInstance.challenge.sendTransaction(data, function (err, txHash) {
-        $('#challenge-' + id).text('See tx on Etherscan!');
-        $('#challenge-' + id).attr("onclick", "window.open('https://rinkeby.etherscan.io/tx/" + txHash + "')");
+        $('#challenge-' + id).text('See tx on Etherscan!').attr("onclick", "window.open('https://rinkeby.etherscan.io/tx/" + txHash + "')");
     });
 }
