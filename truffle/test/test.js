@@ -19,6 +19,15 @@ contract("Testing Lazy", accounts => {
     assert.equal(task.status, 2);
   });
 
+  it("should pass correct proof", async () => {
+    let instance = await Lazy.deployed();
+    let task = await instance.tasks(1);
+    assert.equal(task.status, 0);
+    await instance.challenge(1);
+    task = await instance.tasks(1);
+    assert.equal(task.status, 1);
+  });
+
 });
 
 
