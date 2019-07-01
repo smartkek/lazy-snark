@@ -5,10 +5,6 @@ version = "0.0.1"
 publish = false
 edition = "2018"
 
-[lib]
-name = "prover"
-path = "src/lib.rs"
-
 [dependencies]
 rand = "0.4"
 hex = "0.3.2"

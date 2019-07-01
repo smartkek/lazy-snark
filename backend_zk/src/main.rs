@@ -328,9 +328,7 @@ pub fn encode_fs_into_fr<E: JubjubEngine>(input: E::Fs)
     converted
 }
 
-
-#[test]
-fn test_the_circuit() {
+fn main() {
     use bellman::pairing::bn256::*;
     use rand::{SeedableRng, Rng, XorShiftRng, Rand};
     use sapling_crypto::circuit::test::*;
