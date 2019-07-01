@@ -8,22 +8,22 @@ window.getResultAsString = function (result) {
 
 var contractInstance;
 
-$(document).ready(function() {
+$(document).ready(async function() {
     let contractAddress = "0xeFF91455de6D4CF57C141bD8bF819E5f873c1A01";
 
     // set ethUrl to `undefined` to use MetaMask instead of Ethereum node
     let ethUrl = "http://rinkeby.fluence.one:8545/";
 
     // application to interact with that stored in Fluence contract
-    let appId = "264";
+    let appId = "269";
 
     // create a session between client and backend application, and then join the game
-    fluence.connect(contractAddress, appId, ethUrl).then((s) => {
+    await fluence.connect(contractAddress, appId, ethUrl).then((s) => {
         console.log("Session created");
         window.session = s;
     });
 
-    var lazyAddress = '0x1cca1f0be338c747b11a16aba8d0905251628bdf';
+    var lazyAddress = '0x4812b51D4420Da87C3cD78a77048328cd6914f27';
     let ControllerAbi = [
         {
             "constant": true,
@@ -430,8 +430,7 @@ $('button').click(function () {
 function challengeEthereum(id, data) {
     console.log('Challenging task N ' + data + ' on Ethereum!');
     contractInstance.challenge.sendTransaction(data, function (err, txHash) {
-        $('#challenge-' + id).remove();
-        $('#link-' + id).text('See tx on Etherscan!').attr("href", "https://rinkeby.etherscan.io/tx/" + txHash);
-
+        $('#challenge-' + id).text('See tx on Etherscan!');
+        $('#challenge-' + id).attr("onclick", "window.open('https://rinkeby.etherscan.io/tx/" + txHash + "')");
     });
 }
