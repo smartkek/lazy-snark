@@ -1,5 +1,5 @@
 {
-  "name": "testsuite-contract",
+  "name": "lazy-snark",
   "version": "1.0.0",
   "description": "",
   "main": "truffle.js",
@@ -16,7 +16,7 @@
     "truffle-hdwallet-provider": "^1.0.0-web3one.5"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "./node_modules/.bin/truffle test"
   },
   "author": "",
   "license": "ISC"

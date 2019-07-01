@@ -3,11 +3,8 @@ require('babel-polyfill');
 
 var HDWalletProvider = require("truffle-hdwallet-provider");
 
-
 var mnemonicRinkeby = "oxygen crunch note tent verify chicken gossip shield essence runway clinic fortune";
 var infuraLinkRinkeby = "https://rinkeby.infura.io/v3/198f519e2d9643d689649459edccc350";
-
-
 
 module.exports = {
     networks: {
