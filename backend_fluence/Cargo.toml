@@ -1,9 +1,8 @@
 [package]
-name = "proof"
-version = "0.1.0"
-authors = ["Fluence Labs"]
+authors = ["Alexander Drygin <dryginalexander@gmail.com>"]
+name = "verifier"
+version = "0.0.1"
 publish = false
-description = "Trustless off-chain zk-proof verification"
 edition = "2018"
 
 [lib]
