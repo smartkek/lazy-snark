@@ -361,6 +361,7 @@ fn main() {
     use bellman::groth16::{generate_random_parameters, create_random_proof, verify_proof, prepare_verifying_key};
     use crypto::sha2::Sha256;
     use crypto::digest::Digest;
+    use std::path::PathBuf;
 
     let params = &AltJubjubBn256::new();
 
@@ -478,7 +479,8 @@ fn main() {
         generate_random_parameters(circuit, &mut rng).expect("must generate parameters")
     };
 
-    print_to_file("./vk.txt", format!("alpha g1: {} /n", parameters.vk.alpha_g1).as_bytes());
+    let vk_file = File::create(PathBuf::from("./vk.key")).unwrap();
+    parameters.vk.write(vk_file).unwrap();
 
     let prepared_vk = prepare_verifying_key(&parameters.vk);
 
@@ -487,8 +489,20 @@ fn main() {
         create_random_proof(circuit, &parameters, &mut rng).expect("must create a proof")
     };
 
-    println!("proof a g1: {}", proof.a);
-    println!("proof b g2: {}", proof.b);
+    let proof_file = File::create(PathBuf::from("./proof.key")).unwrap();
+    proof.write(proof_file).unwrap();
+
+
+
+
+    let a : G1Affine = proof.a;
+    println!("proof a g1: {}", a);
+    println!("proof a g1 uncompressed: {}", a.into_uncompressed().as_ref());
+
+
+
+
+    println!("public inputs: {}", public_inputs[0]);
 
     let is_valid = verify_proof(&prepared_vk, &proof, &public_inputs).expect("must verify a proof");
 
