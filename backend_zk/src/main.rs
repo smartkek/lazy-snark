@@ -420,6 +420,8 @@ fn main() {
         old_hash_result[0] &= trimming_mask; // trim top 3 bits for BN256 case.
         new_hash_result[0] &= trimming_mask;
 
+        print!("old: {:?}, new: {:?}", old_hash_result, new_hash_result);
+
         let mut old_repr = Fr::zero().into_repr();
         old_repr.read_be(&old_hash_result[..]).expect("pack old hash as field element");
         let old_state = Fr::from_repr(old_repr).expect("must be a valud old representation");

@@ -54,9 +54,9 @@ fn main() {
     use bellman::groth16::VerifyingKey;
 
     use bellman::pairing::{
-    Engine,
-    CurveAffine,
-    EncodedPoint
+        Engine,
+        CurveAffine,
+        EncodedPoint
     };
 
     use std::io::{self, Read};
@@ -172,10 +172,23 @@ fn main() {
     let proof : Proof<Bn256> = Proof {a: a, b: b, c: c};
 
     // import public inputs
-    //let public_inputs = vec![];
 
-    //let is_valid = verify_proof(&prepared_vk, &proof, &public_inputs).expect("must verify a proof");
+    let mut old_hash : [u8; 32] = [2, 164, 165, 31, 173, 73, 128, 200, 180, 255, 44, 25, 233, 131, 121, 31, 122, 240, 199, 104, 77, 252, 2, 77, 203, 17, 159, 162, 163, 139, 237, 173];
+    let mut new_hash : [u8; 32] = [11, 47, 241, 201, 121, 156, 19, 123, 121, 35, 144, 153, 34, 173, 27, 151, 188, 133, 122, 50, 181, 132, 243, 186, 152, 52, 53, 144, 84, 141, 213, 174];
 
-    //assert!(is_valid, "proof was invalid");
+    let mut old_repr = Fr::zero().into_repr();
+    old_repr.read_be(&old_hash[..]).expect("pack old hash as field element");
+    let old_state = Fr::from_repr(old_repr).expect("must be a valud old representation");
+
+    let mut new_repr = Fr::zero().into_repr();
+    new_repr.read_be(&new_hash[..]).expect("pack new hash as field element");
+    let new_state = Fr::from_repr(new_repr).expect("must be a valud new representation");
+    
+    let public_inputs = vec![old_state, new_state];
+
+    let is_valid = verify_proof(&prepared_vk, &proof, &public_inputs).expect("must verify a proof");
+
+    assert!(is_valid, "proof was invalid");
+
     println!("Proof is valid");
 }
