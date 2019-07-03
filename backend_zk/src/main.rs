@@ -479,6 +479,7 @@ fn main() {
         generate_random_parameters(circuit, &mut rng).expect("must generate parameters")
     };
 
+    // write vk in binary form
     let vk_file = File::create(PathBuf::from("./vk.key")).unwrap();
     parameters.vk.write(vk_file).unwrap();
 
@@ -489,18 +490,9 @@ fn main() {
         create_random_proof(circuit, &parameters, &mut rng).expect("must create a proof")
     };
 
+    // write proof in binary form
     let proof_file = File::create(PathBuf::from("./proof.key")).unwrap();
     proof.write(proof_file).unwrap();
-
-
-
-
-    let a : G1Affine = proof.a;
-    println!("proof a g1: {}", a);
-    println!("proof a g1 uncompressed: {}", a.into_uncompressed().as_ref());
-
-
-
 
     println!("public inputs: {}", public_inputs[0]);
 
