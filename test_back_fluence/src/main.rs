@@ -70,38 +70,45 @@ fn main() {
     //let vk : VerifyingKey<Bn256> = VerifyingKey::read(vk_file).unwrap();
 
     //vk.alpha_g1
-    let mut hex_string = hex::decode("1fea09defec64586a976a33dbfb70961fc7e03fb6f4d5a1e074f97312ce789cd").unwrap();
-    hex_string.append(hex::decode("006653d8d2e65ab55fa795c44971eabcc6dbb1dd383c7a8a20de68486eb28154").unwrap().as_mut());
+    let mut hex_string = hex::decode("2c2cb1812fb05d4f31791c66ff995d756b73162f3bb016a5c114befe5cd7903e").unwrap();
+    hex_string.append(hex::decode("0abc1f8a5d49cb2dbda15b5a8b7cd81bec0a581e7c2e16f79446af2d2f5340c0").unwrap().as_mut());
     //vk.beta_g1 = vk.alpha_g1 - ZoKrates does not return that and it is not neaded for verification
     hex_string.append(hex::decode("1fea09defec64586a976a33dbfb70961fc7e03fb6f4d5a1e074f97312ce789cd").unwrap().as_mut());
     hex_string.append(hex::decode("006653d8d2e65ab55fa795c44971eabcc6dbb1dd383c7a8a20de68486eb28154").unwrap().as_mut());
     //vk.beta_g2
-    hex_string.append(hex::decode("1fb73b30d15c6acbf8e723365798381cddccd353d3473853f8586045da20d9c7").unwrap().as_mut());
-    hex_string.append(hex::decode("0ea0d501ac34e65153ff483d15864b7b99d03727e3d18a10442ed2c5b7475616").unwrap().as_mut());
-    hex_string.append(hex::decode("15f0b1a8a45717104ab0625e08eadf52f69f05b9fe3b18f33ffa088718c75bb5").unwrap().as_mut());
-    hex_string.append(hex::decode("20a215cbe73f412eb06c4f05fbfba106600474e659572d5cacab3e02db4d56b5").unwrap().as_mut());
+    hex_string.append(hex::decode("071644533641f7e3acb8606328c591853b2bc27253f29bc11d008a67996fc07f").unwrap().as_mut());
+    hex_string.append(hex::decode("26ca2720c073a085d8452aef541aac280879971c09b199a6e0f21bf36745e1d8").unwrap().as_mut());
+    hex_string.append(hex::decode("0b17104896ed701b6d52279992c1f20d558bc0de8284087645633bf3ca1a0c98").unwrap().as_mut());
+    hex_string.append(hex::decode("2c10eb5b6c0ca42ede8cdcf60642c6dca040abe9abb8294948f4aa0be59a0d42").unwrap().as_mut());
     //vk.gamma_g2
-    hex_string.append(hex::decode("288918039bccc005d837cc445b01e394df8a8ba5f6c9640a54013ce723195a91").unwrap().as_mut());
-    hex_string.append(hex::decode("257c137fe6037e6302bcc0e0c8d12c55c32663ea30aaf8602cb505cce116934d").unwrap().as_mut());
-    hex_string.append(hex::decode("0b9641484e773a5c30f604b912e7008d8c80221eb8af076206d1cb62d5459d6d").unwrap().as_mut());
-    hex_string.append(hex::decode("1422be63e21d8de851ba9ef345b3ba8e9f30dcc9b2b9181700c6c7387fd0000c").unwrap().as_mut());
+    hex_string.append(hex::decode("0afbadec2ecafdd62278c7021095660f5786f445c040e628e4ed1a410454b582").unwrap().as_mut());
+    hex_string.append(hex::decode("038aa6f04ee254a97e2b75ea1f30e36785b6cde4dfd3a2371e058ce089b9ad51").unwrap().as_mut());
+    hex_string.append(hex::decode("077720bb216fb0051c5e153c1bd9aa36a678173b9c13e8d3a83cb5a75ca36948").unwrap().as_mut());
+    hex_string.append(hex::decode("1f9b58e9abde296abc3c3bab8fb0be2a4f497d8e5d9d463997d316e9cc558a7d").unwrap().as_mut());
     //vk.delta_g1 = vk.alpha_g1 - ZoKrates does not return that and it is not neaded for verification
     hex_string.append(hex::decode("1fea09defec64586a976a33dbfb70961fc7e03fb6f4d5a1e074f97312ce789cd").unwrap().as_mut());
     hex_string.append(hex::decode("006653d8d2e65ab55fa795c44971eabcc6dbb1dd383c7a8a20de68486eb28154").unwrap().as_mut());
     //vk.delta_g2
-    hex_string.append(hex::decode("199f02185af5ab7a2646ad6523cf0e75160919770fac8be6d87a2c85f5c62fa2").unwrap().as_mut());
-    hex_string.append(hex::decode("2415e319be12366f2b5f59f6475008d3fa8f2486dbbd417ff979dc727ac8b506").unwrap().as_mut());
-    hex_string.append(hex::decode("211d44b4f8fc9f4aa10acce7e45205e497df0ba61ae321db03a520d213f2f884").unwrap().as_mut());
-    hex_string.append(hex::decode("1a684894edd1457382d460ac84ffbae1dbb1d35403e3729e06edf10960ccbb58").unwrap().as_mut());
+    hex_string.append(hex::decode("16526b9b519fa544d3f9ce35a5f4afa7aac0aa4dd54421c4864b3fe8d2415f41").unwrap().as_mut());
+    hex_string.append(hex::decode("24e24f35699cca59416a7f43c0e93e148b2353440978994df8f81603a46f8839").unwrap().as_mut());
+    hex_string.append(hex::decode("299f9f09280310aedf63055c5ce76feb16557ed7ff11ba35adad718102b5651a").unwrap().as_mut());
+    hex_string.append(hex::decode("0c4a2fc4db77ef6c19511b2ffb369981cebbffcb5337a671e1ad678b460ac5e9").unwrap().as_mut());
     //vk.ic len
-    hex_string.append(3u32.to_be_bytes().to_vec().as_mut());
+    hex_string.append(6u32.to_be_bytes().to_vec().as_mut());
     //vk.ic
-    hex_string.append(hex::decode("26d321094b0704a73f6c3b0fa361ce36ec94775d3dcd4b0fcbed086f2417b69d").unwrap().as_mut());
-    hex_string.append(hex::decode("26895772f453edf3d38c1e3b11a74d134fec4e3f225bae6620470bafedbbe374").unwrap().as_mut());
-    hex_string.append(hex::decode("28ca43de88e898c1b5871d2d2da4a60fb470a459c64922556253eb0d87a0950e").unwrap().as_mut());
-    hex_string.append(hex::decode("2e076fbdb638cd389f3a2748ba759ddbee20b97dfb577343af18109506675ead").unwrap().as_mut());
-    hex_string.append(hex::decode("02a3959d26d938fbbd2f1453b4cdc8558703133524ddab59dba20e8b920f27ab").unwrap().as_mut());
-    hex_string.append(hex::decode("293e35b2ba09b27006eead4fe4a4aae136391e33a56ee5b2b9bff744f2657e74").unwrap().as_mut());
+    hex_string.append(hex::decode("2f910078bf5092a7ea9d3ce750b7b5399b101509adb8017a6e12fa1a4c638d5b").unwrap().as_mut());
+    hex_string.append(hex::decode("0b76454d4300571c8d86714b4e5ef095688b51080e674425e8e5edb201f64128").unwrap().as_mut());
+    hex_string.append(hex::decode("2922a307d415f70c8df6f14b664c46df12a89cd3a89cf7960663907bf9483b68").unwrap().as_mut());
+    hex_string.append(hex::decode("1bc30a719ddc0099f557cca61a0687766e6275fc98b185baa77735b93bf2a0ef").unwrap().as_mut());
+    hex_string.append(hex::decode("0201dc8c8faa3dc5b8eec85f029d2482bf11a6b46d5f8e4d9f17d41ac3e4c9c1").unwrap().as_mut());
+    hex_string.append(hex::decode("0a1d62c1142c92dff75b53d5a572fd7a013708118acf10f718c61fb6226160f5").unwrap().as_mut());
+
+    hex_string.append(hex::decode("02276f5896610ec573cd6cdc6e47c69e756362d2b1b1c51c5ab90ac838d1a898").unwrap().as_mut());
+    hex_string.append(hex::decode("13fa6cc7987f4f3118f6ee3ab85dcd708df17050636d487914077348e0af05b1").unwrap().as_mut());
+    hex_string.append(hex::decode("0778ae3718fd7f48564bc33b60ec4f39a238e97cb4cc0bbd4ff37119942ff7d4").unwrap().as_mut());
+    hex_string.append(hex::decode("0282e96481744ee21524d802b3e524bf0596bb37bb63e5ed37c77fc1a5c8e89d").unwrap().as_mut());
+    hex_string.append(hex::decode("1ce40e230695bdab7d2ff7ebcf6e6fedb68d1a320238fc98845b151ae4ee3b54").unwrap().as_mut());
+    hex_string.append(hex::decode("0feac76664d37b57a4ea5a774252bb82355294e55635a8aeb7a1327405d27128").unwrap().as_mut());
 
     let mut c = Cursor::new(Vec::new());
 
@@ -118,16 +125,17 @@ fn main() {
     let proof : Proof<Bn256> = Proof::read(proof_file).unwrap();*/
 
     // a
-    let mut hex_string = hex::decode("143c347b098006a40a22eaa2d2bc56222e734f55bd717721c90886518872015d").unwrap();
-    hex_string.append(hex::decode("10f7e2ca628844cb7c2ccacc8abb4930cd226dcd37f9e83860f942a177020c7d").unwrap().as_mut());
+    let mut hex_string = hex::decode("12d0dbcfc1da3ea29bc017288fceea3929401f4f12dbd0bba73781420d31aa2d").unwrap();
+    hex_string.append(hex::decode("2811c1eaa63f4a804951bd7f994cbb6bea9df64591793b8392400e8756d1bca7").unwrap().as_mut());
     // b
-    hex_string.append(hex::decode("2902bfe7dba8187bd73795211f2eece7d5aa3ba8a1f27e34c8ba148cad4ac743").unwrap().as_mut());
-    hex_string.append(hex::decode("2e0b0d4278e6b20f5b2e31fa425c7c91d1eebdaeb01fef228b5954e2a0c01f8a").unwrap().as_mut());
-    hex_string.append(hex::decode("2f2c29c73d45cfedf4334873e418860f561c3d7fa4090fe7aeb686023398874d").unwrap().as_mut());
-    hex_string.append(hex::decode("14f4411f6edfd09d31ad7f6f78dbbe7debfa66a0cb4e0450888790b4293eeaf1").unwrap().as_mut());
+    hex_string.append(hex::decode("04c33f68e1bd55be0928b086c647debcdf7aa0e3c3efc6a8efbc2596a77a0e67").unwrap().as_mut());
+    hex_string.append(hex::decode("17e7392e0e3ec2b5701e675e6e0569330d03ffffe476fc8d63cfeaa0ba1c8a97").unwrap().as_mut());
+    hex_string.append(hex::decode("2fc402693a54cd1b176abeed209674f2f12ced1496c6ce27ba8cf16903daa4cc").unwrap().as_mut());
+    hex_string.append(hex::decode("2c47efba3f4f260da643bb6427d08b551bb3446537d6ac4857d611be2355a446").unwrap().as_mut());
+    
     // c
-    hex_string.append(hex::decode("125c6452b97d9b83600e903313aa93284a8b8d8318050ed6af65c10df7ebb5ec").unwrap().as_mut());
-    hex_string.append(hex::decode("1a5702d896bdf72c8853dc91819a5de30d7415c61c0eb9c55d947485b268ef89").unwrap().as_mut());
+    hex_string.append(hex::decode("04d40f14694092d0f70890a20492b2b68e7eaabdcee744e519678d687c9c3ed0").unwrap().as_mut());
+    hex_string.append(hex::decode("28de140e393154b0e70b3ef12806af963a4a33b45c24e7864391093b6028fa2b").unwrap().as_mut());
 
     let mut c = Cursor::new(Vec::new());
 
@@ -173,19 +181,33 @@ fn main() {
     let proof : Proof<Bn256> = Proof {a: a, b: b, c: c};
 
     // import public inputs
+    let in_1 = hex::decode("00000000000000000000000000000000c6481e22c5ff4164af680b8cfaa5e8ed").unwrap();
+    let in_2 = hex::decode("000000000000000000000000000000003120eeff89c4f307c4a6faaae059ce10").unwrap();
+    let in_3 = hex::decode("000000000000000000000000000000005b6d7d198c48c17c9540d29275a04662").unwrap();
+    let in_4 = hex::decode("00000000000000000000000000000000f7a9aa434629a33c84eec3e16e196f27").unwrap();
+    let in_5 = hex::decode("0000000000000000000000000000000000000000000000000000000000000001").unwrap();
 
-    let mut old_hash : [u8; 32] = [2, 164, 165, 31, 173, 73, 128, 200, 180, 255, 44, 25, 233, 131, 121, 31, 122, 240, 199, 104, 77, 252, 2, 77, 203, 17, 159, 162, 163, 139, 237, 173];
-    let mut new_hash : [u8; 32] = [11, 47, 241, 201, 121, 156, 19, 123, 121, 35, 144, 153, 34, 173, 27, 151, 188, 133, 122, 50, 181, 132, 243, 186, 152, 52, 53, 144, 84, 141, 213, 174];
+    let mut repr_in_1 = Fr::zero().into_repr();
+    repr_in_1.read_be(&in_1[..]).expect("pack new hash as field element");
+    let in_1_fr = Fr::from_repr(repr_in_1).expect("must be a valud new representation");
 
-    let mut old_repr = Fr::zero().into_repr();
-    old_repr.read_be(&old_hash[..]).expect("pack old hash as field element");
-    let old_state = Fr::from_repr(old_repr).expect("must be a valud old representation");
+    let mut repr_in_2 = Fr::zero().into_repr();
+    repr_in_2.read_be(&in_2[..]).expect("pack new hash as field element");
+    let in_2_fr = Fr::from_repr(repr_in_2).expect("must be a valud new representation");
 
-    let mut new_repr = Fr::zero().into_repr();
-    new_repr.read_be(&new_hash[..]).expect("pack new hash as field element");
-    let new_state = Fr::from_repr(new_repr).expect("must be a valud new representation");
-    
-    let public_inputs = vec![old_state, new_state];
+    let mut repr_in_3 = Fr::zero().into_repr();
+    repr_in_3.read_be(&in_3[..]).expect("pack new hash as field element");
+    let in_3_fr = Fr::from_repr(repr_in_3).expect("must be a valud new representation");
+
+    let mut repr_in_4 = Fr::zero().into_repr();
+    repr_in_4.read_be(&in_4[..]).expect("pack new hash as field element");
+    let in_4_fr = Fr::from_repr(repr_in_4).expect("must be a valud new representation");
+
+    let mut repr_in_5 = Fr::zero().into_repr();
+    repr_in_5.read_be(&in_5[..]).expect("pack new hash as field element");
+    let in_5_fr = Fr::from_repr(repr_in_5).expect("must be a valud new representation");
+
+    let public_inputs = vec![in_1_fr, in_2_fr, in_3_fr, in_4_fr, in_5_fr];
 
     let is_valid = verify_proof(&prepared_vk, &proof, &public_inputs).expect("must verify a proof");
 
