@@ -6,62 +6,23 @@ extern crate rand;
 use bellman::pairing::ff::{
     PrimeField,
     PrimeFieldRepr,
-    Field,
-    BitIterator
-};
-
-use bellman::pairing::{
-    Engine
-};
-
-use bellman::{
-    SynthesisError,
-    ConstraintSystem,
-    Circuit
-};
-
-use sapling_crypto::circuit::{
-    Assignment,
-    boolean,
-    ecc,
-    sha256,
-    num,
-    multipack,
-};
-
-use sapling_crypto::jubjub::{
-    JubjubEngine,
-    FixedGenerators,
-    PrimeOrder,
-    Unknown,
-    edwards,
-    JubjubParams
+    Field
 };
 
 fn main() {
     use bellman::pairing::bn256::*;
-    use rand::{SeedableRng, Rng, XorShiftRng, Rand};
-    use sapling_crypto::circuit::test::*;
-    use sapling_crypto::alt_babyjubjub::{AltJubjubBn256, fs, edwards, PrimeOrder};
     use bellman::groth16::{verify_proof, prepare_verifying_key};
-    use crypto::sha2::Sha256;
-    use crypto::digest::Digest;
 
-    use std::fs::File;
-    use std::io::{BufRead, BufReader, Write};
-    use std::path::PathBuf;
+    use std::io::{Write};
     use bellman::groth16::Proof;
     use bellman::groth16::VerifyingKey;
 
     use bellman::pairing::{
-        Engine,
         CurveAffine,
         EncodedPoint
     };
 
     use std::io::{self, Read};
-    use std::sync::Arc;
-
     use std::io::{Cursor, Seek, SeekFrom};
 
     // import verification key ----------------------------------------------------------------------------------------
@@ -145,7 +106,7 @@ fn main() {
     let mut g1_repr = <bellman::pairing::bn256::G1Affine as CurveAffine>::Uncompressed::empty();
     let mut g2_repr = <bellman::pairing::bn256::G2Affine as CurveAffine>::Uncompressed::empty();
 
-    c.read_exact(g1_repr.as_mut());
+    c.read_exact(g1_repr.as_mut()).unwrap();
     let a = g1_repr
                 .into_affine()
                 .map_err(|e| io::Error::new(io::ErrorKind::InvalidData, e))
@@ -156,7 +117,7 @@ fn main() {
                 }).unwrap();
     //println!("proof a g1: {}", a);
 
-    c.read_exact(g2_repr.as_mut());
+    c.read_exact(g2_repr.as_mut()).unwrap();
     let b = g2_repr
                 .into_affine()
                 .map_err(|e| io::Error::new(io::ErrorKind::InvalidData, e))
@@ -167,7 +128,7 @@ fn main() {
                 }).unwrap();
     //println!("proof b g2: {}", b);
 
-    c.read_exact(g1_repr.as_mut());
+    c.read_exact(g1_repr.as_mut()).unwrap();
     let c = g1_repr
                 .into_affine()
                 .map_err(|e| io::Error::new(io::ErrorKind::InvalidData, e))
