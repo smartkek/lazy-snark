@@ -1,9 +1,8 @@
 [package]
-name = "proof"
-version = "0.1.0"
-authors = ["Fluence Labs"]
+authors = ["Alexander Drygin <dryginalexander@gmail.com>"]
+name = "verifier"
+version = "0.0.1"
 publish = false
-description = "Trustless off-chain zk-proof verification"
 edition = "2018"
 
 [lib]
@@ -23,5 +22,5 @@ serde_json = "1.0.38"
 linked-hash-map = "0.5.1"
 fluence = { version = "0.1.5", features = ["wasm_logger"] }
 
-bellman_ce = "0.3.0"
-
+hex = "0.3.2"
+bellman = { git = 'https://github.com/matterinc/bellman', tag = "0.2.0"  }
