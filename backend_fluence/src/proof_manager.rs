@@ -40,12 +40,6 @@ impl ProofManager {
 
         use std::io::{self, Read, Cursor, Seek, SeekFrom, Write};
 
-        // verify mock
-        let mut result: u8 = 1;
-        if proof[0] != 8.51065254754666e75 {
-            result = 0
-        }
-
         // verify proof -------------------------------------------------------------------------------------
 
         // import verification key --------------------------------------------
@@ -109,8 +103,7 @@ impl ProofManager {
         hex_string.append(hex::decode("04c33f68e1bd55be0928b086c647debcdf7aa0e3c3efc6a8efbc2596a77a0e67").unwrap().as_mut());
         hex_string.append(hex::decode("17e7392e0e3ec2b5701e675e6e0569330d03ffffe476fc8d63cfeaa0ba1c8a97").unwrap().as_mut());
         hex_string.append(hex::decode("2fc402693a54cd1b176abeed209674f2f12ced1496c6ce27ba8cf16903daa4cc").unwrap().as_mut());
-        hex_string.append(hex::decode("2c47efba3f4f260da643bb6427d08b551bb3446537d6ac4857d611be2355a446").unwrap().as_mut());
-        
+        hex_string.append(hex::decode("2c47efba3f4f260da643bb6427d08b551bb3446537d6ac4857d611be2355a446").unwrap().as_mut());   
         // c
         hex_string.append(hex::decode("04d40f14694092d0f70890a20492b2b68e7eaabdcee744e519678d687c9c3ed0").unwrap().as_mut());
         hex_string.append(hex::decode("28de140e393154b0e70b3ef12806af963a4a33b45c24e7864391093b6028fa2b").unwrap().as_mut());
@@ -187,7 +180,12 @@ impl ProofManager {
 
         let is_valid = verify_proof(&prepared_vk, &proof, &public_inputs).expect("must verify a proof");
 
-        // update proof status
+        // update proof status ------------------------------------------------
+
+        let mut result: u8 = 1;
+        if !is_valid {
+            result = 0
+        }
         self.proofs.insert(proof_id, result);
 
         let response = Response::Verify {
