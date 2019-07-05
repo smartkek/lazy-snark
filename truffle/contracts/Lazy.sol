@@ -1,4 +1,4 @@
-pragma solidity ^0.5.4;
+pragma solidity 0.5.10;
 pragma experimental ABIEncoderV2;
 
 import "./IVerifier.sol";
@@ -72,9 +72,7 @@ contract Lazy is Structs {
         msg.sender.transfer(stake);
     }
 
-    function taskDataById(uint id) external view returns(
-            uint[13] memory data
-            ) {
+    function taskDataById(uint id) external view returns(uint[13] memory data) {
         Task memory task = tasks[id];
         
         data[0] = task.data.input[0];
