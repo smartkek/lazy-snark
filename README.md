@@ -1,4 +1,4 @@
-# LAZY SNARK: trustless off-chain zk-proof verification.
+# LAZY SNARK: trustless off-chain zk-proof verification
 ## Abstract
 In Ethereum, it is expensive to check zero-knowledge proofs on-chain. So, we propose to use Fluence to do heavy-lifting off-chain and only go on-chain to challenge incorrect proofs. Our project should help exisiting Ethereum projects that rely on zk-proofs to achieve privacy, scalability, and trustlessness.
 ## Why
@@ -8,7 +8,8 @@ We suggest checking proofs on Fluence instead. This option does not has gas prob
 ## How it works
 The process includes the following entities:
 - Ethereum smart contract that stores (data, proof) pairs and implements on-chain proof verification. In case the proof is not correct, the smart contract rewards the user who challenges the invalid proof with ether.
-- Proof supplier who uploads (data, proof) pairs to the smart contract. The proof supplier stakes ether to the smart contract. In case the proof supplier provides an invalid proof, the proof supplier is punished: a part of the stake is given to the one who chellenged the proof as a reward.
+- The user aka proof consumer who wants to chalenge invalid proofs in the smart contract to get a reward.
+- Proof supplier who uploads (data, proof) pairs to the smart contract. The proof supplier stakes ether to the smart contract. In case the proof supplier provides an invalid proof, the proof supplier is punished: a part of the stake is given to the user who chellenged the proof as a reward.
 - Fluence back end that implements off-chain proof verification. It also stores proof verification results.
 - Ethereum project user aka proof consumer. The user checks whether the proof supplier has provided valid proofs and challenges invalid ones using smart contract to get a reward.
 - Arweave front end. The user performs all the actions via the front end. Also, proof results from the Fluence back end are displayed in the front end.
@@ -37,9 +38,9 @@ LAZY SNARK provides the following benefits compared to checking zk-proofs locall
 
 ## Use cases
 LAZY SNARK can be used in the following cases (and not only in these):
-- Plasma implementations that require zk-proofs.
-- Mixers.
-- Private money like ZkDai.
+- Plasma implementations that require zk-proofs. The proof supplier in that case will also act as a user (proof supplier). The proof supplier will send the proofs to the Fluence back end to prove to the community that the proof supplier is honest. 
+- Mixers. People deposit ether to the smart contract from one address and withdraw it using another address. They provide zk-proof that it is their ether without revealing their identity. Other users check that all the money have been withdrawn by their owners.
+- Private money like ZkDai. They utilize zk-proofs to provide privacy.
 - Games.
 - Many other systems that use zk-proofs. For now, they are mostly limited to money-like systems, hence the examples above. However, it is only the matter of imagination what other use cases need zk-proofs, scalability, and trustlessness.
 
