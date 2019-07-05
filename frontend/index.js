@@ -15,7 +15,7 @@ $(document).ready(async function() {
     let ethUrl = "http://rinkeby.fluence.one:8545/";
 
     // application to interact with that stored in Fluence contract
-    let appId = "269";
+    let appId = "294";
 
     // create a session between client and backend application, and then join the game
     await fluence.connect(contractAddress, appId, ethUrl).then((s) => {
@@ -404,7 +404,24 @@ $('button').click(function () {
             let public_par = result.slice(0, 5);
             let proof = result.slice(5, 13);
 
-            let fluenceResponse_ver = session.request(`{"action": "Verify", "proof_id": ${data}, "public_par": [${public_par}], "proof": [${proof}]}`);
+            public_par.forEach(function(element) { 
+                let i = public_par.indexOf(element)
+                public_par[i] = element.toString(16);
+                if (public_par[i].length < 64) {
+                    public_par[i] = "0".repeat(64-public_par[i].length) + public_par[i]
+                }
+            });
+            proof.forEach(function(element) { 
+                let i = proof.indexOf(element)
+                proof[i] = element.toString(16);
+                if (proof[i].length < 64) {
+                    proof[i] = "0".repeat(64-proof[i].length) + proof[i]
+                }
+            });
+
+            let fluenceResponse_ver = session.request(
+                `{"action": "Verify", "proof_id": ${data}, "public_par": ${JSON.stringify(public_par)}, "proof": ${JSON.stringify(proof)}}`);
+            
             getResultAsString(fluenceResponse_ver).then(function (str) {
                 let fluenceResponse = JSON.parse(str);
                 let success = fluenceResponse.result === 1;
