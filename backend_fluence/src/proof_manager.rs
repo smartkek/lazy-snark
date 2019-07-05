@@ -3,6 +3,7 @@ use crate::request_response::Response;
 
 use linked_hash_map::LinkedHashMap;
 use serde_json::Value;
+use log::info;
 
 pub struct ProofManager {
     // map from job id to verify status
@@ -17,7 +18,7 @@ impl ProofManager {
         }
     }
 
-    pub fn verify(&mut self, proof_id: u64, public_par: [f64; 5], proof: [f64; 8]) -> AppResult<Value> {
+    pub fn verify(&mut self, proof_id: u64, public_par: [String; 5], proof: [String; 8]) -> AppResult<Value> {
 
         use bellman::pairing::bn256::*;
         use bellman::groth16::{
@@ -45,45 +46,45 @@ impl ProofManager {
         // import verification key --------------------------------------------
 
         //vk.alpha_g1
-        let mut hex_string = hex::decode("2c2cb1812fb05d4f31791c66ff995d756b73162f3bb016a5c114befe5cd7903e").unwrap();
-        hex_string.append(hex::decode("0abc1f8a5d49cb2dbda15b5a8b7cd81bec0a581e7c2e16f79446af2d2f5340c0").unwrap().as_mut());
+        let mut hex_string = hex::decode("2e0a814dd75e4118233ddf6a916a813c40bae07d976fdcd01dbfa22bea641a96").unwrap();
+        hex_string.append(hex::decode("1779e77cff5e54cf2cdc237e51cd6d95ef2c37ab6a7d5f9ce0a242188e1a1fe3").unwrap().as_mut());
         //vk.beta_g1 = vk.alpha_g1 - ZoKrates does not return that and it is not neaded for verification
         hex_string.append(hex::decode("1fea09defec64586a976a33dbfb70961fc7e03fb6f4d5a1e074f97312ce789cd").unwrap().as_mut());
         hex_string.append(hex::decode("006653d8d2e65ab55fa795c44971eabcc6dbb1dd383c7a8a20de68486eb28154").unwrap().as_mut());
         //vk.beta_g2
-        hex_string.append(hex::decode("071644533641f7e3acb8606328c591853b2bc27253f29bc11d008a67996fc07f").unwrap().as_mut());
-        hex_string.append(hex::decode("26ca2720c073a085d8452aef541aac280879971c09b199a6e0f21bf36745e1d8").unwrap().as_mut());
-        hex_string.append(hex::decode("0b17104896ed701b6d52279992c1f20d558bc0de8284087645633bf3ca1a0c98").unwrap().as_mut());
-        hex_string.append(hex::decode("2c10eb5b6c0ca42ede8cdcf60642c6dca040abe9abb8294948f4aa0be59a0d42").unwrap().as_mut());
+        hex_string.append(hex::decode("021548b93199574bdef2be8cb1908a1079b1664d8a041d2e297c3aa6c554855c").unwrap().as_mut());
+        hex_string.append(hex::decode("190b2d5d03854400e2c2a702f502813677a1d4be920d79648f810e320a30f2c5").unwrap().as_mut());
+        hex_string.append(hex::decode("0bc956fa715451d64e20b260759c2ae74a82b68f1eef86504051cd3ae547f282").unwrap().as_mut());
+        hex_string.append(hex::decode("011192ee83c0347e363b7c5fffe156fbadd91591b35dc8fe912d2b498c3a9301").unwrap().as_mut());
         //vk.gamma_g2
-        hex_string.append(hex::decode("0afbadec2ecafdd62278c7021095660f5786f445c040e628e4ed1a410454b582").unwrap().as_mut());
-        hex_string.append(hex::decode("038aa6f04ee254a97e2b75ea1f30e36785b6cde4dfd3a2371e058ce089b9ad51").unwrap().as_mut());
-        hex_string.append(hex::decode("077720bb216fb0051c5e153c1bd9aa36a678173b9c13e8d3a83cb5a75ca36948").unwrap().as_mut());
-        hex_string.append(hex::decode("1f9b58e9abde296abc3c3bab8fb0be2a4f497d8e5d9d463997d316e9cc558a7d").unwrap().as_mut());
+        hex_string.append(hex::decode("1c4c46720835faf06e35cd85f05c589a1a98f58112ecf7aacf0deac60681f5a4").unwrap().as_mut());
+        hex_string.append(hex::decode("1b438f01daf6402ff298981b74f80a5e79c39cce21c67770f74b89e65eb3b9ca").unwrap().as_mut());
+        hex_string.append(hex::decode("101b8c9c29aa1ac1a709878f6eb4d4a74f4ed1368a18f29c2762b76b8c389f4d").unwrap().as_mut());
+        hex_string.append(hex::decode("009538b3640e10082d0bf4b18b997fef6af2e7cceb942ebb26bd263e8805fedd").unwrap().as_mut());
         //vk.delta_g1 = vk.alpha_g1 - ZoKrates does not return that and it is not neaded for verification
         hex_string.append(hex::decode("1fea09defec64586a976a33dbfb70961fc7e03fb6f4d5a1e074f97312ce789cd").unwrap().as_mut());
         hex_string.append(hex::decode("006653d8d2e65ab55fa795c44971eabcc6dbb1dd383c7a8a20de68486eb28154").unwrap().as_mut());
         //vk.delta_g2
-        hex_string.append(hex::decode("16526b9b519fa544d3f9ce35a5f4afa7aac0aa4dd54421c4864b3fe8d2415f41").unwrap().as_mut());
-        hex_string.append(hex::decode("24e24f35699cca59416a7f43c0e93e148b2353440978994df8f81603a46f8839").unwrap().as_mut());
-        hex_string.append(hex::decode("299f9f09280310aedf63055c5ce76feb16557ed7ff11ba35adad718102b5651a").unwrap().as_mut());
-        hex_string.append(hex::decode("0c4a2fc4db77ef6c19511b2ffb369981cebbffcb5337a671e1ad678b460ac5e9").unwrap().as_mut());
+        hex_string.append(hex::decode("25161a4cc549ffabd2c4508038c12d49447c15e9c565b025183ff6114ffcc58b").unwrap().as_mut());
+        hex_string.append(hex::decode("110f2b773f6d9632162bc2c629467a58e7539ed0f0dc64ff4fd8f63baf4b5a32").unwrap().as_mut());
+        hex_string.append(hex::decode("0eb80be9e5a3f3f4cb0e39edc1db88dbf8de59b0c800b72dcc34d9c0fae14d55").unwrap().as_mut());
+        hex_string.append(hex::decode("0839d69bfc27640a59af741138d4f34500d925eb1a4e9fd57fcda269a7411c33").unwrap().as_mut());
         //vk.ic len
         hex_string.append(6u32.to_be_bytes().to_vec().as_mut());
         //vk.ic
-        hex_string.append(hex::decode("2f910078bf5092a7ea9d3ce750b7b5399b101509adb8017a6e12fa1a4c638d5b").unwrap().as_mut());
-        hex_string.append(hex::decode("0b76454d4300571c8d86714b4e5ef095688b51080e674425e8e5edb201f64128").unwrap().as_mut());
-        hex_string.append(hex::decode("2922a307d415f70c8df6f14b664c46df12a89cd3a89cf7960663907bf9483b68").unwrap().as_mut());
-        hex_string.append(hex::decode("1bc30a719ddc0099f557cca61a0687766e6275fc98b185baa77735b93bf2a0ef").unwrap().as_mut());
-        hex_string.append(hex::decode("0201dc8c8faa3dc5b8eec85f029d2482bf11a6b46d5f8e4d9f17d41ac3e4c9c1").unwrap().as_mut());
-        hex_string.append(hex::decode("0a1d62c1142c92dff75b53d5a572fd7a013708118acf10f718c61fb6226160f5").unwrap().as_mut());
+        hex_string.append(hex::decode("2bb604557c5f1096973ab8afe980ea3ae23bd7457f3f11f67fb395f2d1f3b568").unwrap().as_mut());
+        hex_string.append(hex::decode("0f12fdb646ea572637ea6e1bbf04158bcabe6947cf614c67efb3f0278279f866").unwrap().as_mut());
+        hex_string.append(hex::decode("228bbefb9d7457c97766bcae9412c6ddd1de8e3dbcf1606ca6b8f027836affee").unwrap().as_mut());
+        hex_string.append(hex::decode("01bf2712a663f5a72a469ea83a4c3d453c6023a0cd5d5f86330157f1505d62b3").unwrap().as_mut());
+        hex_string.append(hex::decode("23af3409b4b3fb3f194dc683be70c5e442de55544edeace8f891a891a4701ca3").unwrap().as_mut());
+        hex_string.append(hex::decode("1d13edb38da07247e70158557cfa93097d90d92b9a2c99f190c1413f3fdf8828").unwrap().as_mut());
 
-        hex_string.append(hex::decode("02276f5896610ec573cd6cdc6e47c69e756362d2b1b1c51c5ab90ac838d1a898").unwrap().as_mut());
-        hex_string.append(hex::decode("13fa6cc7987f4f3118f6ee3ab85dcd708df17050636d487914077348e0af05b1").unwrap().as_mut());
-        hex_string.append(hex::decode("0778ae3718fd7f48564bc33b60ec4f39a238e97cb4cc0bbd4ff37119942ff7d4").unwrap().as_mut());
-        hex_string.append(hex::decode("0282e96481744ee21524d802b3e524bf0596bb37bb63e5ed37c77fc1a5c8e89d").unwrap().as_mut());
-        hex_string.append(hex::decode("1ce40e230695bdab7d2ff7ebcf6e6fedb68d1a320238fc98845b151ae4ee3b54").unwrap().as_mut());
-        hex_string.append(hex::decode("0feac76664d37b57a4ea5a774252bb82355294e55635a8aeb7a1327405d27128").unwrap().as_mut());
+        hex_string.append(hex::decode("00572fbfedfe16fd1dcae266bf009907451cd8db485325ad322fb658cb0c30ff").unwrap().as_mut());
+        hex_string.append(hex::decode("25415b150b181b2cbecc6f84382b0bd8fd49f2cf498da1c775ad624e5e7b7eaf").unwrap().as_mut());
+        hex_string.append(hex::decode("1a294f13fbf284a6e11c2f54ed2946fc5fd732dafbf49ac01ce741f224b57c29").unwrap().as_mut());
+        hex_string.append(hex::decode("182d4a788849c87d27548cbe3a511a0237cb0d4595425eee878d78c4eb4e5529").unwrap().as_mut());
+        hex_string.append(hex::decode("10ec12d1090de44b1aecb41030d123df2d61318c1928d6de10f916c9bfc2f681").unwrap().as_mut());
+        hex_string.append(hex::decode("0621a1ea9bbbfa893358dfaa206ba1cb8af2ecca483c3c36f2a0c302da401c8f").unwrap().as_mut());
 
         let mut c = Cursor::new(Vec::new());
 
@@ -97,16 +98,16 @@ impl ProofManager {
         // import proof -------------------------------------------------------
 
         // a
-        let mut hex_string = hex::decode("12d0dbcfc1da3ea29bc017288fceea3929401f4f12dbd0bba73781420d31aa2d").unwrap();
-        hex_string.append(hex::decode("2811c1eaa63f4a804951bd7f994cbb6bea9df64591793b8392400e8756d1bca7").unwrap().as_mut());
+        let mut hex_string = hex::decode(&proof[0])?;
+        hex_string.append(hex::decode(&proof[1])?.as_mut());
         // b
-        hex_string.append(hex::decode("04c33f68e1bd55be0928b086c647debcdf7aa0e3c3efc6a8efbc2596a77a0e67").unwrap().as_mut());
-        hex_string.append(hex::decode("17e7392e0e3ec2b5701e675e6e0569330d03ffffe476fc8d63cfeaa0ba1c8a97").unwrap().as_mut());
-        hex_string.append(hex::decode("2fc402693a54cd1b176abeed209674f2f12ced1496c6ce27ba8cf16903daa4cc").unwrap().as_mut());
-        hex_string.append(hex::decode("2c47efba3f4f260da643bb6427d08b551bb3446537d6ac4857d611be2355a446").unwrap().as_mut());   
+        hex_string.append(hex::decode(&proof[2])?.as_mut());
+        hex_string.append(hex::decode(&proof[3])?.as_mut());
+        hex_string.append(hex::decode(&proof[4])?.as_mut());
+        hex_string.append(hex::decode(&proof[5])?.as_mut());
         // c
-        hex_string.append(hex::decode("04d40f14694092d0f70890a20492b2b68e7eaabdcee744e519678d687c9c3ed0").unwrap().as_mut());
-        hex_string.append(hex::decode("28de140e393154b0e70b3ef12806af963a4a33b45c24e7864391093b6028fa2b").unwrap().as_mut());
+        hex_string.append(hex::decode(&proof[6])?.as_mut());
+        hex_string.append(hex::decode(&proof[7])?.as_mut());
 
         let mut c = Cursor::new(Vec::new());
 
@@ -116,7 +117,7 @@ impl ProofManager {
         let mut g1_repr = <bellman::pairing::bn256::G1Affine as CurveAffine>::Uncompressed::empty();
         let mut g2_repr = <bellman::pairing::bn256::G2Affine as CurveAffine>::Uncompressed::empty();
 
-        c.read_exact(g1_repr.as_mut()).unwrap();
+        c.read_exact(g1_repr.as_mut())?;
         let a = g1_repr
                     .into_affine()
                     .map_err(|e| io::Error::new(io::ErrorKind::InvalidData, e))
@@ -124,9 +125,9 @@ impl ProofManager {
                         Err(io::Error::new(io::ErrorKind::InvalidData, "point at infinity"))
                     } else {
                         Ok(e)
-                    }).unwrap();
+                    })?;
 
-        c.read_exact(g2_repr.as_mut()).unwrap();
+        c.read_exact(g2_repr.as_mut())?;
         let b = g2_repr
                     .into_affine()
                     .map_err(|e| io::Error::new(io::ErrorKind::InvalidData, e))
@@ -134,9 +135,9 @@ impl ProofManager {
                         Err(io::Error::new(io::ErrorKind::InvalidData, "point at infinity"))
                     } else {
                         Ok(e)
-                    }).unwrap();
+                    })?;
 
-        c.read_exact(g1_repr.as_mut()).unwrap();
+        c.read_exact(g1_repr.as_mut())?;
         let c = g1_repr
                     .into_affine()
                     .map_err(|e| io::Error::new(io::ErrorKind::InvalidData, e))
@@ -144,41 +145,41 @@ impl ProofManager {
                         Err(io::Error::new(io::ErrorKind::InvalidData, "point at infinity"))
                     } else {
                         Ok(e)
-                    }).unwrap();
+                    })?;
 
         let proof : Proof<Bn256> = Proof {a: a, b: b, c: c};
 
         // import public inputs -----------------------------------------------
 
-        let in_1 = hex::decode("00000000000000000000000000000000c6481e22c5ff4164af680b8cfaa5e8ed").unwrap();
-        let in_2 = hex::decode("000000000000000000000000000000003120eeff89c4f307c4a6faaae059ce10").unwrap();
-        let in_3 = hex::decode("000000000000000000000000000000005b6d7d198c48c17c9540d29275a04662").unwrap();
-        let in_4 = hex::decode("00000000000000000000000000000000f7a9aa434629a33c84eec3e16e196f27").unwrap();
-        let in_5 = hex::decode("0000000000000000000000000000000000000000000000000000000000000001").unwrap();
+        let in_1 = hex::decode(&public_par[0])?;
+        let in_2 = hex::decode(&public_par[1])?;
+        let in_3 = hex::decode(&public_par[2])?;
+        let in_4 = hex::decode(&public_par[3])?;
+        let in_5 = hex::decode(&public_par[4])?;
 
         let mut repr_in_1 = Fr::zero().into_repr();
-        repr_in_1.read_be(&in_1[..]).expect("pack new hash as field element");
-        let in_1_fr = Fr::from_repr(repr_in_1).expect("must be a valud new representation");
+        repr_in_1.read_be(&in_1[..])?;
+        let in_1_fr = Fr::from_repr(repr_in_1)?;
 
         let mut repr_in_2 = Fr::zero().into_repr();
-        repr_in_2.read_be(&in_2[..]).expect("pack new hash as field element");
-        let in_2_fr = Fr::from_repr(repr_in_2).expect("must be a valud new representation");
+        repr_in_2.read_be(&in_2[..])?;
+        let in_2_fr = Fr::from_repr(repr_in_2)?;
 
         let mut repr_in_3 = Fr::zero().into_repr();
-        repr_in_3.read_be(&in_3[..]).expect("pack new hash as field element");
-        let in_3_fr = Fr::from_repr(repr_in_3).expect("must be a valud new representation");
+        repr_in_3.read_be(&in_3[..])?;
+        let in_3_fr = Fr::from_repr(repr_in_3)?;
 
         let mut repr_in_4 = Fr::zero().into_repr();
-        repr_in_4.read_be(&in_4[..]).expect("pack new hash as field element");
-        let in_4_fr = Fr::from_repr(repr_in_4).expect("must be a valud new representation");
+        repr_in_4.read_be(&in_4[..])?;
+        let in_4_fr = Fr::from_repr(repr_in_4)?;
 
         let mut repr_in_5 = Fr::zero().into_repr();
-        repr_in_5.read_be(&in_5[..]).expect("pack new hash as field element");
-        let in_5_fr = Fr::from_repr(repr_in_5).expect("must be a valud new representation");
+        repr_in_5.read_be(&in_5[..])?;
+        let in_5_fr = Fr::from_repr(repr_in_5)?;
 
         let public_inputs = vec![in_1_fr, in_2_fr, in_3_fr, in_4_fr, in_5_fr];
 
-        let is_valid = verify_proof(&prepared_vk, &proof, &public_inputs).expect("must verify a proof");
+        let is_valid = verify_proof(&prepared_vk, &proof, &public_inputs)?;
 
         // update proof status ------------------------------------------------
 

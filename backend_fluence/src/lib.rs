@@ -9,6 +9,11 @@ use crate::request_response::{Request, Response};
 use fluence::sdk::*;
 use serde_json::Value;
 use std::cell::RefCell;
+use log::info;
+
+fn init() {
+    logger::WasmLogger::init_with_level(log::Level::Info).unwrap();
+}
 
 thread_local! {
     static PROOF_MANAGER: RefCell<ProofManager> = RefCell::new(ProofManager::new());
@@ -32,8 +37,9 @@ fn do_request(req: String) -> AppResult<Value> {
     }
 }
 
-#[invocation_handler]
+#[invocation_handler(init_fn = init)]
 fn main(req: String) -> String {
+    info!("req string: {}", req);
     match do_request(req) {
         Ok(res) => res.to_string(),
         Err(err) => {

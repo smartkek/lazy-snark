@@ -6,8 +6,8 @@ use serde::{Deserialize, Serialize};
 pub enum Request {
     Verify {
         proof_id: u64,
-        public_par: [f64; 5],
-        proof: [f64; 8],
+        public_par: [String; 5],
+        proof: [String; 8],
     },
     Check {
         proof_id: u64,
