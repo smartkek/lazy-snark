@@ -174,33 +174,17 @@ impl ProofManager {
 
         // import public inputs -----------------------------------------------
 
-        let in_1 = hex::decode(&public_par[0])?;
-        let in_2 = hex::decode(&public_par[1])?;
-        let in_3 = hex::decode(&public_par[2])?;
-        let in_4 = hex::decode(&public_par[3])?;
-        let in_5 = hex::decode(&public_par[4])?;
+        let mut public_inputs = Vec::new();
 
-        let mut repr_in_1 = Fr::zero().into_repr();
-        repr_in_1.read_be(&in_1[..])?;
-        let in_1_fr = Fr::from_repr(repr_in_1)?;
+        for public_part in &public_par {
+            let inp = hex::decode(public_part)?;
 
-        let mut repr_in_2 = Fr::zero().into_repr();
-        repr_in_2.read_be(&in_2[..])?;
-        let in_2_fr = Fr::from_repr(repr_in_2)?;
-
-        let mut repr_in_3 = Fr::zero().into_repr();
-        repr_in_3.read_be(&in_3[..])?;
-        let in_3_fr = Fr::from_repr(repr_in_3)?;
-
-        let mut repr_in_4 = Fr::zero().into_repr();
-        repr_in_4.read_be(&in_4[..])?;
-        let in_4_fr = Fr::from_repr(repr_in_4)?;
-
-        let mut repr_in_5 = Fr::zero().into_repr();
-        repr_in_5.read_be(&in_5[..])?;
-        let in_5_fr = Fr::from_repr(repr_in_5)?;
-
-        let public_inputs = vec![in_1_fr, in_2_fr, in_3_fr, in_4_fr, in_5_fr];
+            let mut repr_inp = Fr::zero().into_repr();
+            repr_inp.read_be(&inp[..])?;
+            let inp_fr = Fr::from_repr(repr_inp)?;
+            
+            public_inputs.push(inp_fr);
+        }
 
         let is_valid = verify_proof(&self.prepared_vk, &proof, &public_inputs)?;
 
