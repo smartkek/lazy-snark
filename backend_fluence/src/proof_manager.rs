@@ -30,7 +30,7 @@ impl ProofManager {
         )
         .unwrap();
 
-        //vk.beta_g1 = vk.alpha_g1 - ZoKrates does not return that and it is not needed for verification
+        //some g1 point, because ZoKrates does not return that and it is not needed for verification
         let vk_beta_g1 = hex::decode(
             "1fea09defec64586a976a33dbfb70961fc7e03fb6f4d5a1e074f97312ce789cd
             006653d8d2e65ab55fa795c44971eabcc6dbb1dd383c7a8a20de68486eb28154",
@@ -53,7 +53,7 @@ impl ProofManager {
         )
         .unwrap();
 
-        //vk.delta_g1 = vk.alpha_g1 - ZoKrates does not return that and it is not needed for verification
+        //some g1 point, because ZoKrates does not return that and it is not needed for verification
         let vk_delta_g1 = hex::decode(
             "1fea09defec64586a976a33dbfb70961fc7e03fb6f4d5a1e074f97312ce789cd
             006653d8d2e65ab55fa795c44971eabcc6dbb1dd383c7a8a20de68486eb28154",
@@ -67,11 +67,9 @@ impl ProofManager {
             0839d69bfc27640a59af741138d4f34500d925eb1a4e9fd57fcda269a7411c33",
         )
         .unwrap();
-
-        //vk.ic len
+        
         let vk_ic_len = 6;
 
-        //vk.ic
         let vk_ic = hex::decode(
             "2bb604557c5f1096973ab8afe980ea3ae23bd7457f3f11f67fb395f2d1f3b568
             0f12fdb646ea572637ea6e1bbf04158bcabe6947cf614c67efb3f0278279f866
