@@ -1,6 +1,5 @@
 use serde::{Deserialize, Serialize};
 
-
 #[derive(Serialize, Deserialize)]
 #[serde(tag = "action")]
 pub enum Request {

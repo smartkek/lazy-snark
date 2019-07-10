@@ -7,9 +7,9 @@ use crate::proof_manager::ProofManager;
 use crate::request_response::{Request, Response};
 
 use fluence::sdk::*;
+use log::info;
 use serde_json::Value;
 use std::cell::RefCell;
-use log::info;
 
 fn init() {
     logger::WasmLogger::init_with_level(log::Level::Info).unwrap();
@@ -23,17 +23,13 @@ fn do_request(req: String) -> AppResult<Value> {
     let request: Request = serde_json::from_str(req.as_str())?;
 
     match request {
-
         Request::Verify {
             proof_id,
             public_par,
             proof,
         } => PROOF_MANAGER.with(|gm| gm.borrow_mut().verify(proof_id, public_par, proof)),
 
-        Request::Check {
-            proof_id,
-        } => PROOF_MANAGER.with(|gm| gm.borrow_mut().check(proof_id))
-
+        Request::Check { proof_id } => PROOF_MANAGER.with(|gm| gm.borrow_mut().check(proof_id)),
     }
 }
 
