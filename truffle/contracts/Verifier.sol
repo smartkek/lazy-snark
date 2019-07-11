@@ -44,7 +44,7 @@ library BN256G2 {
             pt2xx == 0 && pt2xy == 0 &&
             pt2yx == 0 && pt2yy == 0
             )) {
-                assert(_isOnCurve(
+                require(_isOnCurve(
                         pt2xx, pt2xy,
                         pt2yx, pt2yy
                     ));
@@ -57,7 +57,7 @@ library BN256G2 {
             pt2xx == 0 && pt2xy == 0 &&
             pt2yx == 0 && pt2yy == 0
         ) {
-            assert(_isOnCurve(
+            require(_isOnCurve(
                     pt1xx, pt1xy,
                     pt1yx, pt1yy
                 ));
@@ -67,11 +67,11 @@ library BN256G2 {
             );
         }
 
-        assert(_isOnCurve(
+        require(_isOnCurve(
                 pt1xx, pt1xy,
                 pt1yx, pt1yy
             ));
-        assert(_isOnCurve(
+        require(_isOnCurve(
                 pt2xx, pt2xy,
                 pt2yx, pt2yy
             ));
@@ -118,7 +118,7 @@ library BN256G2 {
             pt1yx = 1;
             pt1zx = 0;
         } else {
-            assert(_isOnCurve(
+            require(_isOnCurve(
                     pt1xx, pt1xy,
                     pt1yx, pt1yy
                 ));
