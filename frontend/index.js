@@ -23,7 +23,7 @@ $(document).ready(async function() {
         window.session = s;
     });
 
-    var lazyAddress = '0x4812b51D4420Da87C3cD78a77048328cd6914f27';
+    var lazyAddress = '0x834B5BBFd4482E3301b9C10a34f73A94590129A7';
     let ControllerAbi = [
         {
             "constant": true,
