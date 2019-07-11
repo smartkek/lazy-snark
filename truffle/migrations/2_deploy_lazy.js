@@ -9,7 +9,10 @@ module.exports = async function(deployer, network, accounts) {
 	deployer.then(async() => {
 		await deployer.deploy(Verifier);
 		await deployer.deploy(VerifierProxy, Verifier.address);
-		var contract = await deployer.deploy(Lazy, VerifierProxy.address);
+        var contract = await deployer.deploy(Lazy, VerifierProxy.address);
+        await contract.submit(input1, proof1);
+        await contract.submit(input1, proof1);
+        await contract.submit(input1, proof1);
 		await contract.submit([[1, 2, 3, 4, 5]], [[1, 2], [[3, 4], [5, 6]], [7, 8]]);
 		await contract.submit(input1, proof1);
 	});
