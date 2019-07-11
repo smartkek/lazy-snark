@@ -15,7 +15,7 @@ $(document).ready(async function() {
     let ethUrl = "http://rinkeby.fluence.one:8545/";
 
     // application to interact with that stored in Fluence contract
-    let appId = "294";
+    let appId = "299";
 
     // create a session between client and backend application, and then join the game
     await fluence.connect(contractAddress, appId, ethUrl).then((s) => {
