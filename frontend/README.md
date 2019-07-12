@@ -5,4 +5,4 @@
 2. run `npm run build`
 3. run `npm run start`
 
-* now deployed on http://arweave.net/OOcoykih5JYBzlmwTTK7ziCN8TiErNBQyc6pE06wcBQ
+* now deployed on http://arweave.net/IhkHrfWKa4RtbuO01kFa-bfzpzH0513bcdDYxv_gpHU
