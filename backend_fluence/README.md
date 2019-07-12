@@ -5,3 +5,5 @@
 ```cargo +nightly build --target wasm32-unknown-unknown --release```
 
 2. [publishing](https://fluence.network/docs/book/quickstart/publish.html) to Fluence network
+
+* current Fluence appId is 299
